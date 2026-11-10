@@ -55,7 +55,7 @@
     <div class="col-md-4 mb-3">
         <label class="form-label">{{ __('Perkiraan Biaya Masuk') }}</label>
         <input type="number" name="entrance_fee" class="form-control" step="0.01" min="0" value="{{ old('entrance_fee', $destination->entrance_fee) }}">
-        <div class="form-text">{{ __('Rupiah untuk destinasi Indonesia, Dolar AS untuk destinasi luar negeri. Isi 0 bila gratis; kosongkan bila belum diketahui.') }}</div>
+        <div class="form-text">{{ __('Dalam mata uang negara destinasi (Indonesia: Rupiah, Jepang: Yen, dan seterusnya). Isi 0 bila gratis; kosongkan bila belum diketahui.') }}</div>
     </div>
 </div>
 

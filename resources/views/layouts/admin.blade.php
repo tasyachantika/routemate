@@ -35,10 +35,16 @@
             <span>RouteMate <span class="badge bg-light text-dark align-middle">Admin</span></span>
         </a>
         <div class="d-flex align-items-center gap-2">
-            <span class="d-flex align-items-center gap-1 me-1">
-                <a class="text-white text-decoration-none {{ app()->getLocale() === 'id' ? 'fw-bold' : '' }}" href="{{ route('language.switch', 'id') }}">ID</a>
-                <span style="color:rgba(255,255,255,.5)">|</span>
-                <a class="text-white text-decoration-none {{ app()->getLocale() === 'en' ? 'fw-bold' : '' }}" href="{{ route('language.switch', 'en') }}">EN</a>
+            <span class="dropdown me-1">
+                <button class="btn btn-sm btn-outline-light dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-globe"></i> {{ strtoupper(app()->getLocale()) }}</button>
+                <ul class="dropdown-menu dropdown-menu-end">
+                    <li><a class="dropdown-item {{ app()->getLocale() === 'id' ? 'fw-bold' : '' }}" href="{{ route('language.switch', 'id') }}">Bahasa Indonesia</a></li>
+                    <li><a class="dropdown-item {{ app()->getLocale() === 'en' ? 'fw-bold' : '' }}" href="{{ route('language.switch', 'en') }}">English</a></li>
+                    <li><a class="dropdown-item {{ app()->getLocale() === 'ja' ? 'fw-bold' : '' }}" href="{{ route('language.switch', 'ja') }}">日本語</a></li>
+                    <li><a class="dropdown-item {{ app()->getLocale() === 'zh' ? 'fw-bold' : '' }}" href="{{ route('language.switch', 'zh') }}">中文</a></li>
+                    <li><a class="dropdown-item {{ app()->getLocale() === 'ko' ? 'fw-bold' : '' }}" href="{{ route('language.switch', 'ko') }}">한국어</a></li>
+                    <li><a class="dropdown-item {{ app()->getLocale() === 'ms' ? 'fw-bold' : '' }}" href="{{ route('language.switch', 'ms') }}">Bahasa Melayu</a></li>
+                </ul>
             </span>
             <a href="{{ url('/') }}" class="btn btn-outline-light btn-sm"><i class="bi bi-globe"></i> {{ __('Lihat Situs') }}</a>
             <form method="POST" action="{{ route('logout') }}" class="d-inline">

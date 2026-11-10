@@ -239,6 +239,5 @@
     "tanggal belum diatur": "date not set yet",
     "waktu setempat": "local time",
     "Gratis": "Free",
-    "Perkiraan tarif standar dewasa. Destinasi Indonesia dalam Rupiah; destinasi luar negeri dalam Dolar AS, yaitu setara perkiraan dari tarif lokalnya. Harga dapat berubah sewaktu-waktu.": "Estimated standard adult fare. Indonesian destinations in Rupiah; destinations abroad in US Dollars, as an approximate equivalent of the local fare. Prices may change at any time.",
-    "Rupiah untuk destinasi Indonesia, Dolar AS untuk destinasi luar negeri. Isi 0 bila gratis; kosongkan bila belum diketahui.": "Rupiah for Indonesian destinations, US Dollars for destinations abroad. Enter 0 if free; leave empty if unknown."
+    "Dalam mata uang negara destinasi (Indonesia: Rupiah, Jepang: Yen, dan seterusnya). Isi 0 bila gratis; kosongkan bila belum diketahui.": "In the destination country currency (Indonesia: Rupiah, Japan: Yen, and so on). Enter 0 if free; leave empty if unknown."
 }

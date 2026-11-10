@@ -27,10 +27,11 @@ Route::get('/', function () {
     return view('home', compact('destinations'));
 })->name('home');
 
-// Pengalih bahasa antarmuka (Indonesia / Inggris). Selalu bisa diakses,
-// pilihan disimpan di session lalu diterapkan middleware SetLocale.
+// Pengalih bahasa antarmuka (Indonesia, Inggris, Jepang, Korea, Mandarin,
+// Melayu). Selalu bisa diakses, pilihan disimpan di session lalu diterapkan
+// middleware SetLocale.
 Route::get('/language/{locale}', function (string $locale) {
-    if (in_array($locale, ['id', 'en'], true)) {
+    if (in_array($locale, ['id', 'en', 'ja', 'ko', 'zh', 'ms'], true)) {
         session(['locale' => $locale]);
     }
 

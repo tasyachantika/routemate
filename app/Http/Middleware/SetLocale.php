@@ -11,13 +11,14 @@ class SetLocale
     /**
      * Terapkan bahasa antarmuka dari session.
      * Pilihan disimpan oleh route 'language.switch' sebagai session('locale')
-     * dengan nilai 'id' atau 'en'. Nilai lain diabaikan (tetap bahasa bawaan).
+     * dengan nilai salah satu dari: 'id', 'en', 'ja', 'ko', 'zh', 'ms'.
+     * Nilai lain diabaikan (tetap bahasa bawaan).
      */
     public function handle(Request $request, Closure $next): Response
     {
         $locale = $request->session()->get('locale');
 
-        if (in_array($locale, ['id', 'en'], true)) {
+        if (in_array($locale, ['id', 'en', 'ja', 'ko', 'zh', 'ms'], true)) {
             app()->setLocale($locale);
         }
 
