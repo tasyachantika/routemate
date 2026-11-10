@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Services\TurnstileVerifier;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
@@ -20,6 +21,10 @@ class AdminAuthController extends Controller
             'email' => ['required', 'string', 'email'],
             'password' => ['required', 'string'],
         ]);
+
+        // CAPTCHA diverifikasi di server SEBELUM password diperiksa,
+        // sama seperti login pengguna biasa.
+        $this->ensureTurnstile($request);
 
         if (! Auth::attempt($credentials)) {
             throw ValidationException::withMessages([
@@ -40,5 +45,16 @@ class AdminAuthController extends Controller
         $request->session()->regenerate();
 
         return redirect()->intended(route('admin.dashboard'));
+    }
+
+    private function ensureTurnstile(Request $request): void
+    {
+        $token = $request->input('cf-turnstile-response');
+
+        if (! app(TurnstileVerifier::class)->verify($token, $request->ip())) {
+            throw ValidationException::withMessages([
+                'cf-turnstile-response' => 'Verifikasi CAPTCHA gagal atau belum selesai. Silakan coba lagi.',
+            ]);
+        }
     }
 }

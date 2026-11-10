@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Services\TurnstileVerifier;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
@@ -23,7 +24,13 @@ class AuthController extends Controller
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
 
+        // CAPTCHA diverifikasi di server SEBELUM akun dibuat.
+        $this->ensureTurnstile($request);
+
         $user = User::create($validated);
+
+        // Memicu pengiriman email verifikasi (bila email terkonfigurasi).
+        event(new Registered($user));
 
         Auth::login($user);
         $request->session()->regenerate();
@@ -43,6 +50,10 @@ class AuthController extends Controller
             'password' => ['required', 'string'],
         ]);
 
+        // CAPTCHA diverifikasi di server SEBELUM password diperiksa,
+        // supaya bot tidak bisa menebak password tanpa melewati CAPTCHA.
+        $this->ensureTurnstile($request);
+
         if (! Auth::attempt($credentials)) {
             throw ValidationException::withMessages([
                 'email' => 'Email atau password salah.',
@@ -57,7 +68,6 @@ class AuthController extends Controller
             throw ValidationException::withMessages([
                 'email' => 'Email atau password salah.',
             ]);
-            $this->ensureTurnstile($request);
         }
 
         $request->session()->regenerate();
@@ -73,14 +83,15 @@ class AuthController extends Controller
 
         return redirect('/');
     }
-    private function ensureTurnstile(Request $request): void
-{
-    $token = $request->input('cf-turnstile-response');
 
-    if (! app(TurnstileVerifier::class)->verify($token, $request->ip())) {
-        throw ValidationException::withMessages([
-            'cf-turnstile-response' => 'Verifikasi CAPTCHA gagal atau belum selesai. Silakan coba lagi.',
-        ]);
+    private function ensureTurnstile(Request $request): void
+    {
+        $token = $request->input('cf-turnstile-response');
+
+        if (! app(TurnstileVerifier::class)->verify($token, $request->ip())) {
+            throw ValidationException::withMessages([
+                'cf-turnstile-response' => 'Verifikasi CAPTCHA gagal atau belum selesai. Silakan coba lagi.',
+            ]);
+        }
     }
-}
 }

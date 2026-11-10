@@ -3,6 +3,7 @@
 @section('title', 'Dashboard - RouteMate')
 
 @section('content')
+<div class="container pb-5">
     <h1 class="mb-3">Dashboard Pengguna</h1>
     <p>Halo, {{ auth()->user()->name }}! Selamat datang di RouteMate.</p>
 
@@ -11,7 +12,8 @@
             <div class="card text-center">
                 <div class="card-body">
                     <h2>{{ $tripsCount }}</h2>
-                    <p class="text-muted mb-0">Itinerary Saya</p>
+                    <p class="text-muted mb-2">Itinerary Saya</p>
+                    <a href="{{ route('trips.index') }}" class="btn btn-sm btn-primary">Buka Itinerary</a>
                 </div>
             </div>
         </div>
@@ -19,11 +21,33 @@
             <div class="card text-center">
                 <div class="card-body">
                     <h2>{{ $destinationsCount }}</h2>
-                    <p class="text-muted mb-0">Destinasi Tersedia</p>
+                    <p class="text-muted mb-2">Destinasi Tersedia</p>
+                    <a href="{{ route('destinations.index') }}" class="btn btn-sm btn-primary">Jelajahi Destinasi</a>
                 </div>
             </div>
         </div>
     </div>
 
-    <p class="text-muted">Fitur menyusun itinerary akan aktif pada tahap itinerary. Untuk sekarang, jelajahi destinasi dari halaman utama.</p>
+    <div class="card mt-2">
+        <div class="card-body">
+            <h2 class="h5">Akun Saya</h2>
+            <p class="mb-1">Email: <strong>{{ auth()->user()->email }}</strong></p>
+            <p class="mb-3">
+                Status email:
+                @if (auth()->user()->hasVerifiedEmail())
+                    <span class="badge bg-success">Terverifikasi</span>
+                @else
+                    <span class="badge bg-warning text-dark">Belum terverifikasi</span>
+                @endif
+            </p>
+            <div class="d-flex flex-wrap gap-2">
+                <a href="{{ route('password.change') }}" class="btn btn-outline-primary btn-sm"><i class="bi bi-key"></i> Ubah Password</a>
+                @unless (auth()->user()->hasVerifiedEmail())
+                    <a href="{{ route('verification.notice') }}" class="btn btn-outline-secondary btn-sm"><i class="bi bi-envelope-check"></i> Verifikasi Email</a>
+                @endunless
+                <a href="{{ route('map.index') }}" class="btn btn-outline-secondary btn-sm"><i class="bi bi-map"></i> Buka Peta</a>
+            </div>
+        </div>
+    </div>
+</div>
 @endsection

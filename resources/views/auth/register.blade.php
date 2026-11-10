@@ -37,12 +37,12 @@
                         <label class="form-label">Konfirmasi Password</label>
                         <input type="password" name="password_confirmation" class="form-control" required>
                     </div>
-                    <button type="submit" class="btn btn-primary w-100">Daftar</button>
                 <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 <div class="cf-turnstile mb-3" data-sitekey="{{ config('services.turnstile.site_key') }}"></div>
 @error('cf-turnstile-response')
     <div class="text-danger small mb-3">{{ $message }}</div>
 @enderror
+                    <button type="submit" class="btn btn-primary w-100">Daftar</button>
 
                 </form>
 

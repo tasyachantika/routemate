@@ -49,7 +49,8 @@
         <li class="nav-item"><a class="nav-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}" href="{{ route('admin.dashboard') }}"><i class="bi bi-speedometer2"></i> Dashboard</a></li>
         <li class="nav-item"><a class="nav-link {{ request()->routeIs('admin.categories.*') ? 'active' : '' }}" href="{{ route('admin.categories.index') }}"><i class="bi bi-tags"></i> Kategori</a></li>
         <li class="nav-item"><a class="nav-link {{ request()->routeIs('admin.destinations.*') ? 'active' : '' }}" href="{{ route('admin.destinations.index') }}"><i class="bi bi-geo-alt"></i> Destinasi</a></li>
-        <li class="nav-item"><a class="nav-link {{ request()->routeIs('admin.report*') ? 'active' : '' }}" href="{{ url('/admin/report') }}"><i class="bi bi-bar-chart"></i> Laporan</a></li>
+        <li class="nav-item"><a class="nav-link {{ request()->routeIs('admin.report*') ? 'active' : '' }}" href="{{ route('admin.report') }}"><i class="bi bi-bar-chart"></i> Laporan</a></li>
+        <li class="nav-item"><a class="nav-link {{ request()->routeIs('admin.activity') ? 'active' : '' }}" href="{{ route('admin.activity') }}"><i class="bi bi-journal-text"></i> Log Aktivitas</a></li>
     </ul>
 </div>
 
@@ -81,5 +82,19 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 @stack('scripts')
+<script>
+    // Indikator loading: tombol kirim pada formulir POST menampilkan spinner
+    // dan menjadi nonaktif setelah diklik, untuk mencegah pengiriman ganda.
+    document.addEventListener('submit', function (event) {
+        var form = event.target;
+        if ((form.getAttribute('method') || 'get').toLowerCase() !== 'post') { return; }
+        var button = form.querySelector('button[type="submit"], input[type="submit"]');
+        if (!button || button.disabled) { return; }
+        button.disabled = true;
+        if (button.tagName === 'BUTTON') {
+            button.innerHTML = '<span class="spinner-border spinner-border-sm" aria-hidden="true"></span> Memproses...';
+        }
+    });
+</script>
 </body>
 </html>

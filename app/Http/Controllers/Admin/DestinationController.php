@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\AdminActivityLog;
 use App\Models\Category;
 use App\Models\Destination;
 use Illuminate\Http\Request;
@@ -35,7 +36,9 @@ class DestinationController extends Controller
             unset($data['photo']);
         }
 
-        Destination::create($data);
+        $destination = Destination::create($data);
+
+        AdminActivityLog::record('buat', 'Destinasi', $destination->name . ' (' . $destination->city . ', ' . $destination->country . ')');
 
         return redirect()->route('admin.destinations.index')->with('success', 'Destinasi berhasil ditambahkan.');
     }
@@ -62,11 +65,15 @@ class DestinationController extends Controller
 
         $destination->update($data);
 
+        AdminActivityLog::record('ubah', 'Destinasi', $destination->name . ' (' . $destination->city . ', ' . $destination->country . ')');
+
         return redirect()->route('admin.destinations.index')->with('success', 'Destinasi berhasil diperbarui.');
     }
 
     public function destroy(Destination $destination)
     {
+        AdminActivityLog::record('hapus', 'Destinasi', $destination->name . ' (' . $destination->city . ', ' . $destination->country . ')');
+
         if ($destination->photo) {
             Storage::disk('public')->delete($destination->photo);
         }

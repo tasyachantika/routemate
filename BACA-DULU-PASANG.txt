@@ -1,0 +1,66 @@
+PATCH BESAR ROUTEMATE — PETUNJUK PEMASANGAN
+============================================
+
+SYARAT SEBELUM MEMASANG:
+Folder backup "routemate-backup-10nov" di Documents SUDAH dibuat.
+Kalau belum, buat dulu: salin folder Documents\routemate menjadi
+Documents\routemate-backup-10nov lewat File Explorer.
+
+LANGKAH 1 — Ekstrak patch (satu perintah, dari CMD mana saja):
+  tar -xf %USERPROFILE%\Downloads\patch-besar-routemate.zip -C %USERPROFILE%\Documents\routemate
+
+LANGKAH 2 — Dari CMD folder project (cd %USERPROFILE%\Documents\routemate),
+jalankan perintah ini SATU PER SATU, tunggu selesai tiap perintah:
+
+  php artisan migrate
+  php artisan db:seed --class=DestinationSeeder
+  php artisan db:seed --class=FamousDestinationSeeder
+  php artisan db:seed --class=DestinationPhotoSeeder
+  php artisan db:seed --class=UpdateEntranceFeesSeeder
+  php artisan view:clear
+  php artisan config:clear
+
+  Catatan seeder foto: ia melaporkan berapa foto terpasang.
+  Angka yang diharapkan: 51 destinasi terpasang foto.
+
+LANGKAH 3 — Samakan bahasa di file .env:
+  Buka file .env di folder project (Notepad), cari baris APP_LOCALE,
+  ubah menjadi APP_LOCALE=id lalu simpan. (Hanya baris itu; jangan ubah yang lain.)
+
+LANGKAH 4 — Refresh browser (Ctrl+F5) dan uji cepat:
+  1. Halaman Destinasi: tertulis 51 destinasi, semua berfoto.
+  2. Klik Borobudur: biaya masuk tampil "Rp50.000" + keterangan perkiraan.
+     Klik Tokyo Disneyland: tampil "¥8,900".
+  3. Login user demo: CAPTCHA tampil; login berhasil.
+  4. Buka salah satu itinerary > tambah item anggaran > total terhitung
+     dengan format uang yang benar > hapus itemnya lagi.
+  5. Hapus itinerary percobaan dari halaman Itinerary Saya: harus terhapus
+     dan muncul pesan berhasil.
+  6. Login admin: CAPTCHA sekarang tampil juga di login admin.
+     Buka menu Laporan (statistik + tombol Ekspor CSV berfungsi) dan
+     menu Log Aktivitas.
+  7. Dashboard user: ada kartu Akun Saya (Ubah Password + status email).
+  8. Uji Lupa Password: di halaman login klik "Lupa password?", masukkan
+     email akun demo, kirim. Secara lokal email masuk ke file
+     storage\logs\laravel.log — buka file itu, cari tautan reset, buka di
+     browser, buat password baru, lalu login dengan password baru itu.
+
+LANGKAH 5 — UJI ULANG CAPTCHA (bukti resmi pengganti Uji 10 lama):
+  Di file .env, ganti sementara TURNSTILE_SECRET_KEY menjadi kunci uji
+  gagal resmi Cloudflare: 2x0000000000000000000000000000000AA
+  Jalankan: php artisan config:clear
+  Coba login dengan email + password yang BENAR.
+  Hasil yang diharapkan SEKARANG: login DITOLAK dengan pesan
+  "Verifikasi CAPTCHA gagal...". Screenshot hasil ini untuk laporan.
+  Setelah itu KEMBALIKAN secret ke kunci uji lolos
+  (1x0000000000000000000000000000000AA) dan jalankan config:clear lagi.
+
+LANGKAH 6 — Simpan ke GitHub:
+  git add -A
+  git commit -m "Patch besar: perbaikan CAPTCHA dan anggaran, laporan, log aktivitas, akun"
+  git push
+
+JALAN PULANG bila ada halaman error setelah patch:
+  Jangan panik. Salin kembali file yang bermasalah dari folder
+  routemate-backup-10nov ke folder routemate (timpa), lalu jalankan
+  php artisan view:clear, dan kabari Muse file apa dan error-nya.

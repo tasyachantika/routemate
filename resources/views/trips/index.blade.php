@@ -17,9 +17,9 @@
                         <h5 class="card-title mt-2">{{ $trip->title }}</h5>
                         <p class="text-muted mb-1">{{ $trip->destination_country ?? 'Negara tujuan belum diisi' }}</p>
                         <p class="mb-1">
-                            {{ $trip->start_date ? substr((string) $trip->start_date, 0, 10) : '...' }}
+                            {{ $trip->start_date ? \Carbon\Carbon::parse($trip->start_date)->translatedFormat('d F Y') : '...' }}
                             s/d
-                            {{ $trip->end_date ? substr((string) $trip->end_date, 0, 10) : '...' }}
+                            {{ $trip->end_date ? \Carbon\Carbon::parse($trip->end_date)->translatedFormat('d F Y') : '...' }}
                         </p>
                         <p class="mb-0">Mata uang: {{ $trip->currency }} &middot; {{ $trip->details_count }} destinasi</p>
                     </div>

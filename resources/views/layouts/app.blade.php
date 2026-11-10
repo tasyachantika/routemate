@@ -94,6 +94,17 @@
         @endif
     </div>
 
+    @auth
+        @unless (auth()->user()->hasVerifiedEmail())
+            <div class="container">
+                <div class="alert alert-warning d-flex flex-wrap justify-content-between align-items-center gap-2" role="alert">
+                    <span><i class="bi bi-envelope-exclamation"></i> Email kamu belum terverifikasi.</span>
+                    <a href="{{ route('verification.notice') }}" class="btn btn-sm btn-warning fw-semibold">Verifikasi Sekarang</a>
+                </div>
+            </div>
+        @endunless
+    @endauth
+
     @yield('content')
 </main>
 
@@ -117,5 +128,19 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 @stack('scripts')
+<script>
+    // Indikator loading: tombol kirim pada formulir POST menampilkan spinner
+    // dan menjadi nonaktif setelah diklik, untuk mencegah pengiriman ganda.
+    document.addEventListener('submit', function (event) {
+        var form = event.target;
+        if ((form.getAttribute('method') || 'get').toLowerCase() !== 'post') { return; }
+        var button = form.querySelector('button[type="submit"], input[type="submit"]');
+        if (!button || button.disabled) { return; }
+        button.disabled = true;
+        if (button.tagName === 'BUTTON') {
+            button.innerHTML = '<span class="spinner-border spinner-border-sm" aria-hidden="true"></span> Memproses...';
+        }
+    });
+</script>
 </body>
 </html>

@@ -1,72 +1,78 @@
 <?php
 
-use App\Http\Controllers\Admin\AdminAuthController;
-use App\Http\Controllers\Admin\CategoryController;
-use App\Http\Controllers\Admin\DestinationController as AdminDestinationController;
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\DestinationController;
-use App\Http\Controllers\ItineraryDetailController;
-use App\Http\Controllers\MapController;
-use App\Http\Controllers\TripBudgetController;
-use App\Http\Controllers\TripController;
-use App\Models\Category;
-use App\Models\Destination;
+namespace App\Http\Controllers;
+
 use App\Models\Trip;
-use App\Models\User;
-use Illuminate\Support\Facades\Route;
+use App\Models\TripBudget;
+use Illuminate\Http\Request;
 
-Route::get('/', function () {
-    $destinations = Destination::with('category')->latest()->take(6)->get();
+class TripBudgetController extends Controller
+{
+    private array $categories = [
+        'transportasi' => 'Transportasi',
+        'penginapan' => 'Penginapan',
+        'makanan' => 'Makanan & Minuman',
+        'tiket' => 'Tiket Masuk',
+        'belanja' => 'Belanja',
+        'lainnya' => 'Lainnya',
+    ];
 
-    return view('home', compact('destinations'));
-})->name('home');
+    private array $currencies = ['IDR', 'JPY', 'USD', 'KRW', 'MYR', 'SGD'];
 
-Route::middleware('guest')->group(function () {
-    Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
-    Route::post('/register', [AuthController::class, 'register']);
+    public function store(Request $request, Trip $trip)
+    {
+        $this->ownTrip($request, $trip);
 
-    Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
-    Route::post('/login', [AuthController::class, 'login'])->middleware('throttle:5,1');
+        $trip->budgets()->create($this->validateBudget($request));
 
-    Route::get('/admin/login', [AdminAuthController::class, 'showLogin'])->name('admin.login');
-    Route::post('/admin/login', [AdminAuthController::class, 'login'])->middleware('throttle:5,1');
-});
+        return back()->with('success', 'Item anggaran ditambahkan.');
+    }
 
-Route::middleware('auth')->group(function () {
-    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+    public function update(Request $request, Trip $trip, TripBudget $budget)
+    {
+        $this->ownBudget($request, $trip, $budget);
 
-    Route::get('/dashboard', function () {
-        $tripsCount = auth()->user()->trips()->count();
-        $destinationsCount = Destination::count();
+        $budget->update($this->validateBudget($request));
 
-        return view('dashboard', compact('tripsCount', 'destinationsCount'));
-    })->name('dashboard');
+        return back()->with('success', 'Item anggaran diperbarui.');
+    }
 
-    Route::get('/destinations', [DestinationController::class, 'index'])->name('destinations.index');
-    Route::get('/destinations/{destination}', [DestinationController::class, 'show'])->name('destinations.show');
-    Route::get('/map', [MapController::class, 'index'])->name('map.index');
+    public function destroy(Request $request, Trip $trip, TripBudget $budget)
+    {
+        $this->ownBudget($request, $trip, $budget);
 
-    Route::resource('trips', TripController::class);
-    Route::post('/trips/{trip}/details', [ItineraryDetailController::class, 'store'])->name('trips.details.store');
-    Route::put('/trips/{trip}/details/{detail}', [ItineraryDetailController::class, 'update'])->name('trips.details.update');
-    Route::delete('/trips/{trip}/details/{detail}', [ItineraryDetailController::class, 'destroy'])->name('trips.details.destroy');
-    Route::post('/trips/{trip}/details/{detail}/move', [ItineraryDetailController::class, 'move'])->name('trips.details.move');
+        $budget->delete();
 
-    Route::post('/trips/{trip}/budgets', [TripBudgetController::class, 'store'])->name('trips.budgets.store');
-    Route::put('/trips/{trip}/budgets/{budget}', [TripBudgetController::class, 'update'])->name('trips.budgets.update');
-    Route::delete('/trips/{trip}/budgets/{budget}', [TripBudgetController::class, 'destroy'])->name('trips.budgets.destroy');
-});
+        return back()->with('success', 'Item anggaran dihapus.');
+    }
 
-Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
-    Route::get('/dashboard', function () {
-        return view('admin.dashboard', [
-            'destinationsCount' => Destination::count(),
-            'categoriesCount' => Category::count(),
-            'usersCount' => User::count(),
-            'tripsCount' => Trip::count(),
+    private function validateBudget(Request $request): array
+    {
+        return $request->validate([
+            'name' => ['required', 'string', 'max:150'],
+            'category' => ['required', 'in:' . implode(',', array_keys($this->categories))],
+            'amount' => ['required', 'numeric', 'min:0', 'max:999999999999'],
+            'currency' => ['required', 'in:' . implode(',', $this->currencies)],
+            'notes' => ['nullable', 'string', 'max:500'],
         ]);
-    })->name('dashboard');
+    }
 
-    Route::resource('categories', CategoryController::class)->except('show');
-    Route::resource('destinations', AdminDestinationController::class)->except('show');
-});
+    private function ownTrip(Request $request, Trip $trip): Trip
+    {
+        abort_unless($trip->user_id === $request->user()->id, 404);
+
+        return $trip;
+    }
+
+    /**
+     * Pemeriksaan dua lapis anti-IDOR: trip harus milik pengguna yang
+     * login DAN item anggaran harus benar-benar anak dari trip itu.
+     * Pelanggaran dibalas 404 agar keberadaan data orang lain tidak bocor.
+     */
+    private function ownBudget(Request $request, Trip $trip, TripBudget $budget): void
+    {
+        $this->ownTrip($request, $trip);
+
+        abort_unless($budget->trip_id === $trip->id, 404);
+    }
+}

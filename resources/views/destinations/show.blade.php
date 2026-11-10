@@ -30,7 +30,14 @@
                 </tr>
                 <tr>
                     <th>Perkiraan Biaya Masuk</th>
-                    <td>{{ $destination->entrance_fee !== null ? number_format($destination->entrance_fee, 0, ',', '.') : 'Gratis / tidak diketahui' }}</td>
+                    <td>
+                        @if ($destination->entrance_fee !== null)
+                            {{ \App\Support\Money::entranceFee((float) $destination->entrance_fee, $destination->country) }}
+                            <div class="text-muted small">Perkiraan tarif standar dewasa dalam mata uang setempat; harga dapat berubah sewaktu-waktu.</div>
+                        @else
+                            Gratis / tidak diketahui
+                        @endif
+                    </td>
                 </tr>
             </table>
 

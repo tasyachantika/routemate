@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Destination;
 use App\Models\Trip;
 use Illuminate\Http\Request;
 
@@ -18,6 +19,15 @@ class TripController extends Controller
         'draft' => 'Rancangan',
         'planned' => 'Terjadwal',
         'done' => 'Selesai',
+    ];
+
+    private array $budgetCategories = [
+        'transportasi' => 'Transportasi',
+        'penginapan' => 'Penginapan',
+        'makanan' => 'Makanan & Minuman',
+        'tiket' => 'Tiket Masuk',
+        'belanja' => 'Belanja',
+        'lainnya' => 'Lainnya',
     ];
 
     public function index(Request $request)
@@ -50,11 +60,20 @@ class TripController extends Controller
     public function show(Request $request, Trip $trip)
     {
         $trip = $this->ownTrip($request, $trip);
-        $trip->load(['details' => fn ($query) => $query->orderBy('sort_order'), 'details.destination']);
-        $destinations = \App\Models\Destination::orderBy('country')->orderBy('name')->get();
-        $statuses = $this->statuses;
 
-        return view('trips.show', compact('trip', 'destinations', 'statuses'));
+        $trip->load([
+            'details' => fn ($query) => $query->orderBy('sort_order'),
+            'details.destination',
+            'budgets' => fn ($query) => $query->orderBy('category')->orderBy('name'),
+        ]);
+
+        $destinations = Destination::orderBy('country')->orderBy('name')->get();
+        $statuses = $this->statuses;
+        $budgetCategories = $this->budgetCategories;
+        $currencies = $this->currencies;
+        $budgetTotals = $trip->budgets->groupBy('currency')->map(fn ($items) => $items->sum('amount'));
+
+        return view('trips.show', compact('trip', 'destinations', 'statuses', 'budgetCategories', 'currencies', 'budgetTotals'));
     }
 
     public function edit(Request $request, Trip $trip)
@@ -79,26 +98,13 @@ class TripController extends Controller
 
     public function destroy(Request $request, Trip $trip)
     {
-        $trip->load([
-    'details' => fn ($query) => $query->orderBy('sort_order'),
-    'details.destination',
-    'budgets' => fn ($query) => $query->orderBy('category')->orderBy('name'),
-]);
-$destinations = \App\Models\Destination::orderBy('country')->orderBy('name')->get();
-$statuses = $this->statuses;
-$budgetCategories = [
-    'transportasi' => 'Transportasi',
-    'penginapan' => 'Penginapan',
-    'makanan' => 'Makanan & Minuman',
-    'tiket' => 'Tiket Masuk',
-    'belanja' => 'Belanja',
-    'lainnya' => 'Lainnya',
-];
-$currencies = $this->currencies;
-$budgetTotals = $trip->budgets->groupBy('currency')->map(fn ($items) => $items->sum('amount'));
+        $trip = $this->ownTrip($request, $trip);
 
-return view('trips.show', compact('trip', 'destinations', 'statuses', 'budgetCategories', 'currencies', 'budgetTotals'));
+        // Detail itinerary dan anggaran ikut terhapus otomatis
+        // lewat foreign key cascadeOnDelete di database.
+        $trip->delete();
 
+        return redirect()->route('trips.index')->with('success', 'Itinerary berhasil dihapus.');
     }
 
     private function validateTrip(Request $request): array

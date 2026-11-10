@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\AdminActivityLog;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -28,7 +29,9 @@ class CategoryController extends Controller
             'description' => ['nullable', 'string'],
         ]);
 
-        Category::create($validated);
+        $category = Category::create($validated);
+
+        AdminActivityLog::record('buat', 'Kategori', $category->name);
 
         return redirect()->route('admin.categories.index')->with('success', 'Kategori berhasil ditambahkan.');
     }
@@ -47,11 +50,15 @@ class CategoryController extends Controller
 
         $category->update($validated);
 
+        AdminActivityLog::record('ubah', 'Kategori', $category->name);
+
         return redirect()->route('admin.categories.index')->with('success', 'Kategori berhasil diperbarui.');
     }
 
     public function destroy(Category $category)
     {
+        AdminActivityLog::record('hapus', 'Kategori', $category->name);
+
         $category->delete();
 
         return redirect()->route('admin.categories.index')->with('success', 'Kategori berhasil dihapus. Destinasi yang memakai kategori ini sekarang tidak berkategori.');

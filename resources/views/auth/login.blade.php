@@ -29,16 +29,17 @@
                         <label class="form-label">Password</label>
                         <input type="password" name="password" class="form-control" required>
                     </div>
-                    <button type="submit" class="btn btn-primary w-100">Masuk</button>
                 <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 <div class="cf-turnstile mb-3" data-sitekey="{{ config('services.turnstile.site_key') }}"></div>
 @error('cf-turnstile-response')
     <div class="text-danger small mb-3">{{ $message }}</div>
 @enderror
+                    <button type="submit" class="btn btn-primary w-100">Masuk</button>
 
                 </form>
 
-                <p class="mt-3 mb-0">Belum punya akun? <a href="{{ route('register') }}">Daftar</a></p>
+                <p class="mt-3 mb-1"><a href="{{ route('password.request') }}">Lupa password?</a></p>
+                <p class="mb-0">Belum punya akun? <a href="{{ route('register') }}">Daftar</a></p>
             </div>
         </div>
     </div>

@@ -50,6 +50,9 @@
                         <span class="badge bg-primary">{{ $destination->category->name ?? 'Tanpa Kategori' }}</span>
                         <h5 class="card-title mt-2">{{ $destination->name }}</h5>
                         <p class="text-muted mb-1">{{ $destination->city }}, {{ $destination->country }}</p>
+                        @if ($destination->entrance_fee !== null)
+                            <p class="mb-1 small"><span class="text-muted">Tiket masuk:</span> <strong>{{ \App\Support\Money::entranceFee((float) $destination->entrance_fee, $destination->country) }}</strong> <span class="text-muted">(perkiraan)</span></p>
+                        @endif
                         <p class="card-text">{{ \Illuminate\Support\Str::limit($destination->description, 100) }}</p>
                     </div>
                     <div class="card-footer bg-white border-0 pb-3">
