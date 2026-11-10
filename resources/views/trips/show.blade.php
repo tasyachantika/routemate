@@ -18,7 +18,7 @@
 
     <div class="card mb-4">
         <div class="card-body">
-            <span class="badge bg-secondary">{{ $statuses[$trip->status] ?? $trip->status }}</span>
+            <span class="badge bg-secondary">{{ __($statuses[$trip->status] ?? $trip->status) }}</span>
             <h1 class="mt-2">{{ $trip->title }}</h1>
             <p class="text-muted mb-1">{{ $trip->destination_country ?? __('Negara tujuan belum diisi') }}</p>
             <p class="mb-1">{{ __('Tanggal:') }} {{ $trip->start_date ? \Carbon\Carbon::parse($trip->start_date)->translatedFormat('d F Y') : '...' }} {{ __('s/d') }} {{ $trip->end_date ? \Carbon\Carbon::parse($trip->end_date)->translatedFormat('d F Y') : '...' }}</p>
@@ -27,7 +27,7 @@
             @if ($trip->notes)
                 <p class="mb-0 mt-2">{{ __('Catatan:') }} {{ $trip->notes }}</p>
             @endif
-            <a href="{{ route('trips.edit', $trip) }}" class="btn btn-outline-secondary btn-sm mt-3">Edit Info Trip</a>
+            <a href="{{ route('trips.edit', $trip) }}" class="btn btn-outline-secondary btn-sm mt-3">{{ __('Edit Info Trip') }}</a>
         </div>
     </div>
 
@@ -128,7 +128,7 @@
                 <div class="col-md-2">
                     <select name="category" class="form-select" required>
                         @foreach ($budgetCategories as $value => $label)
-                            <option value="{{ $value }}" @selected(old('category') === $value)>{{ $label }}</option>
+                            <option value="{{ $value }}" @selected(old('category') === $value)>{{ __($label) }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -171,12 +171,12 @@
                         @foreach ($trip->budgets as $budget)
                             <tr>
                                 <td>{{ $budget->name }}</td>
-                                <td>{{ $budgetCategories[$budget->category] ?? $budget->category }}</td>
+                                <td>{{ __($budgetCategories[$budget->category] ?? $budget->category) }}</td>
                                 <td class="text-end">{{ \App\Support\Money::format((float) $budget->amount, $budget->currency) }}</td>
                                 <td>{{ $budget->notes ?? '-' }}</td>
                                 <td>
                                     <div class="d-flex gap-1">
-                                        <button class="btn btn-sm btn-outline-primary" type="button" data-bs-toggle="collapse" data-bs-target="#anggaran-{{ $budget->id }}">Edit</button>
+                                        <button class="btn btn-sm btn-outline-primary" type="button" data-bs-toggle="collapse" data-bs-target="#anggaran-{{ $budget->id }}">{{ __('Edit') }}</button>
                                         <form method="POST" action="{{ route('trips.budgets.destroy', [$trip, $budget]) }}" onsubmit="return confirm('{{ __("Hapus item anggaran ini?") }}')">
                                             @csrf
                                             @method('DELETE')
@@ -196,7 +196,7 @@
                                         <div class="col-md-2">
                                             <select name="category" class="form-select" required>
                                                 @foreach ($budgetCategories as $value => $label)
-                                                    <option value="{{ $value }}" @selected($budget->category === $value)>{{ $label }}</option>
+                                                    <option value="{{ $value }}" @selected($budget->category === $value)>{{ __($label) }}</option>
                                                 @endforeach
                                             </select>
                                         </div>

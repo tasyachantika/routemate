@@ -41,7 +41,7 @@ class MapController extends Controller
                 'name' => $destination->name,
                 'city' => $destination->city,
                 'country' => $destination->country,
-                'category' => $destination->category->name ?? 'Tanpa Kategori',
+                'category' => $destination->category->name ?? __('Tanpa Kategori'),
                 'latitude' => (float) $destination->latitude,
                 'longitude' => (float) $destination->longitude,
                 'detail_url' => route('destinations.show', $destination),

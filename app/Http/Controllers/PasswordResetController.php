@@ -25,10 +25,10 @@ class PasswordResetController extends Controller
         $status = Password::sendResetLink($request->only('email'));
 
         if ($status === Password::RESET_LINK_SENT) {
-            return back()->with('status', 'Tautan reset password sudah dikirim ke email tersebut. Periksa kotak masuk (atau folder spam) kamu.');
+            return back()->with('status', __('Tautan reset password sudah dikirim ke email tersebut. Periksa kotak masuk (atau folder spam) kamu.'));
         }
 
-        return back()->withErrors(['email' => 'Kami tidak menemukan akun dengan email tersebut.'])->withInput();
+        return back()->withErrors(['email' => __('Kami tidak menemukan akun dengan email tersebut.')])->withInput();
     }
 
     public function showReset(Request $request, string $token)
@@ -60,9 +60,9 @@ class PasswordResetController extends Controller
         );
 
         if ($status === Password::PASSWORD_RESET) {
-            return redirect()->route('login')->with('success', 'Password berhasil diubah. Silakan masuk dengan password baru.');
+            return redirect()->route('login')->with('success', __('Password berhasil diubah. Silakan masuk dengan password baru.'));
         }
 
-        return back()->withErrors(['email' => 'Tautan reset tidak valid atau sudah kedaluwarsa. Silakan minta tautan baru.'])->withInput();
+        return back()->withErrors(['email' => __('Tautan reset tidak valid atau sudah kedaluwarsa. Silakan minta tautan baru.')])->withInput();
     }
 }

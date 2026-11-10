@@ -20,6 +20,11 @@ class SetLocale
 
         if (in_array($locale, ['id', 'en', 'ja', 'ko', 'zh', 'ms'], true)) {
             app()->setLocale($locale);
+
+            // Format tanggal (translatedFormat) ikut bahasa aktif.
+            // Kode Carbon sama dengan kode locale aplikasi untuk
+            // keenam bahasa ('zh' tetap 'zh' di Carbon).
+            \Carbon\Carbon::setLocale($locale);
         }
 
         return $next($request);

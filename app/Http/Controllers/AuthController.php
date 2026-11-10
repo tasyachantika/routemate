@@ -56,7 +56,7 @@ class AuthController extends Controller
 
         if (! Auth::attempt($credentials)) {
             throw ValidationException::withMessages([
-                'email' => 'Email atau password salah.',
+                'email' => __('Email atau password salah.'),
             ]);
         }
 
@@ -66,7 +66,7 @@ class AuthController extends Controller
             $request->session()->regenerateToken();
 
             throw ValidationException::withMessages([
-                'email' => 'Email atau password salah.',
+                'email' => __('Email atau password salah.'),
             ]);
         }
 
@@ -90,7 +90,7 @@ class AuthController extends Controller
 
         if (! app(TurnstileVerifier::class)->verify($token, $request->ip())) {
             throw ValidationException::withMessages([
-                'cf-turnstile-response' => 'Verifikasi CAPTCHA gagal atau belum selesai. Silakan coba lagi.',
+                'cf-turnstile-response' => __('Verifikasi CAPTCHA gagal atau belum selesai. Silakan coba lagi.'),
             ]);
         }
     }

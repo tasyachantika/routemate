@@ -21,7 +21,7 @@ class ItineraryDetailController extends Controller
         ]);
 
         if ($trip->details()->where('destination_id', $validated['destination_id'])->exists()) {
-            return back()->withErrors(['destination_id' => 'Destinasi ini sudah ada di itinerary ini.'])->withInput();
+            return back()->withErrors(['destination_id' => __('Destinasi ini sudah ada di itinerary ini.')])->withInput();
         }
 
         if ($error = $this->dateRangeError($trip, $validated['visit_date'] ?? null)) {
@@ -36,7 +36,7 @@ class ItineraryDetailController extends Controller
             'sort_order' => (int) $trip->details()->max('sort_order') + 1,
         ]);
 
-        return back()->with('success', 'Destinasi ditambahkan ke itinerary.');
+        return back()->with('success', __('Destinasi ditambahkan ke itinerary.'));
     }
 
     public function update(Request $request, Trip $trip, ItineraryDetail $detail)
@@ -55,7 +55,7 @@ class ItineraryDetailController extends Controller
 
         $detail->update($validated);
 
-        return back()->with('success', 'Jadwal kunjungan diperbarui.');
+        return back()->with('success', __('Jadwal kunjungan diperbarui.'));
     }
 
     public function destroy(Request $request, Trip $trip, ItineraryDetail $detail)
@@ -64,7 +64,7 @@ class ItineraryDetailController extends Controller
         $detail->delete();
         $this->renumber($trip);
 
-        return back()->with('success', 'Destinasi dihapus dari itinerary.');
+        return back()->with('success', __('Destinasi dihapus dari itinerary.'));
     }
 
     public function move(Request $request, Trip $trip, ItineraryDetail $detail)
@@ -116,7 +116,7 @@ class ItineraryDetailController extends Controller
         $end = substr((string) $trip->end_date, 0, 10);
 
         return ($visitDate < $start || $visitDate > $end)
-            ? 'Tanggal kunjungan harus berada di antara tanggal mulai dan tanggal selesai trip.'
+            ? __('Tanggal kunjungan harus berada di antara tanggal mulai dan tanggal selesai trip.')
             : null;
     }
 

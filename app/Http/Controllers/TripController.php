@@ -54,7 +54,7 @@ class TripController extends Controller
 
         $trip = $request->user()->trips()->create($validated);
 
-        return redirect()->route('trips.show', $trip)->with('success', 'Itinerary berhasil dibuat. Sekarang tambahkan destinasinya.');
+        return redirect()->route('trips.show', $trip)->with('success', __('Itinerary berhasil dibuat. Sekarang tambahkan destinasinya.'));
     }
 
     public function show(Request $request, Trip $trip)
@@ -93,7 +93,7 @@ class TripController extends Controller
         $trip = $this->ownTrip($request, $trip);
         $trip->update($this->validateTrip($request));
 
-        return redirect()->route('trips.show', $trip)->with('success', 'Itinerary berhasil diperbarui.');
+        return redirect()->route('trips.show', $trip)->with('success', __('Itinerary berhasil diperbarui.'));
     }
 
     public function destroy(Request $request, Trip $trip)
@@ -104,7 +104,7 @@ class TripController extends Controller
         // lewat foreign key cascadeOnDelete di database.
         $trip->delete();
 
-        return redirect()->route('trips.index')->with('success', 'Itinerary berhasil dihapus.');
+        return redirect()->route('trips.index')->with('success', __('Itinerary berhasil dihapus.'));
     }
 
     private function validateTrip(Request $request): array

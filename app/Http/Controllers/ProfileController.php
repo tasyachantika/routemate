@@ -24,6 +24,6 @@ class ProfileController extends Controller
             'password' => Hash::make($validated['password']),
         ]);
 
-        return back()->with('success', 'Password berhasil diubah.');
+        return back()->with('success', __('Password berhasil diubah.'));
     }
 }

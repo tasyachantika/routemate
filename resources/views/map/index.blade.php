@@ -42,6 +42,7 @@
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script>
         const destinations = @json($mapDestinations);
+        const detailText = @json(__('Lihat Detail'));
 
         const map = L.map('map').setView([-2.5489, 118.0149], 4);
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -62,7 +63,7 @@
             category.textContent = destination.category;
             const link = document.createElement('a');
             link.href = destination.detail_url;
-            link.textContent = 'Lihat Detail';
+            link.textContent = detailText;
             link.className = 'btn btn-sm btn-primary mt-2';
 
             box.appendChild(title);

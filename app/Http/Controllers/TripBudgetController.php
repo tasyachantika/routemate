@@ -25,7 +25,7 @@ class TripBudgetController extends Controller
 
         $trip->budgets()->create($this->validateBudget($request));
 
-        return back()->with('success', 'Item anggaran ditambahkan.');
+        return back()->with('success', __('Item anggaran ditambahkan.'));
     }
 
     public function update(Request $request, Trip $trip, TripBudget $budget)
@@ -34,7 +34,7 @@ class TripBudgetController extends Controller
 
         $budget->update($this->validateBudget($request));
 
-        return back()->with('success', 'Item anggaran diperbarui.');
+        return back()->with('success', __('Item anggaran diperbarui.'));
     }
 
     public function destroy(Request $request, Trip $trip, TripBudget $budget)
@@ -43,7 +43,7 @@ class TripBudgetController extends Controller
 
         $budget->delete();
 
-        return back()->with('success', 'Item anggaran dihapus.');
+        return back()->with('success', __('Item anggaran dihapus.'));
     }
 
     private function validateBudget(Request $request): array

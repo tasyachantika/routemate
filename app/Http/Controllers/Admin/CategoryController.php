@@ -33,7 +33,7 @@ class CategoryController extends Controller
 
         AdminActivityLog::record('buat', 'Kategori', $category->name);
 
-        return redirect()->route('admin.categories.index')->with('success', 'Kategori berhasil ditambahkan.');
+        return redirect()->route('admin.categories.index')->with('success', __('Kategori berhasil ditambahkan.'));
     }
 
     public function edit(Category $category)
@@ -52,7 +52,7 @@ class CategoryController extends Controller
 
         AdminActivityLog::record('ubah', 'Kategori', $category->name);
 
-        return redirect()->route('admin.categories.index')->with('success', 'Kategori berhasil diperbarui.');
+        return redirect()->route('admin.categories.index')->with('success', __('Kategori berhasil diperbarui.'));
     }
 
     public function destroy(Category $category)
@@ -61,6 +61,6 @@ class CategoryController extends Controller
 
         $category->delete();
 
-        return redirect()->route('admin.categories.index')->with('success', 'Kategori berhasil dihapus. Destinasi yang memakai kategori ini sekarang tidak berkategori.');
+        return redirect()->route('admin.categories.index')->with('success', __('Kategori berhasil dihapus. Destinasi yang memakai kategori ini sekarang tidak berkategori.'));
     }
 }

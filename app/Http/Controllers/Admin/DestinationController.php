@@ -40,7 +40,7 @@ class DestinationController extends Controller
 
         AdminActivityLog::record('buat', 'Destinasi', $destination->name . ' (' . $destination->city . ', ' . $destination->country . ')');
 
-        return redirect()->route('admin.destinations.index')->with('success', 'Destinasi berhasil ditambahkan.');
+        return redirect()->route('admin.destinations.index')->with('success', __('Destinasi berhasil ditambahkan.'));
     }
 
     public function edit(Destination $destination)
@@ -67,7 +67,7 @@ class DestinationController extends Controller
 
         AdminActivityLog::record('ubah', 'Destinasi', $destination->name . ' (' . $destination->city . ', ' . $destination->country . ')');
 
-        return redirect()->route('admin.destinations.index')->with('success', 'Destinasi berhasil diperbarui.');
+        return redirect()->route('admin.destinations.index')->with('success', __('Destinasi berhasil diperbarui.'));
     }
 
     public function destroy(Destination $destination)
@@ -80,7 +80,7 @@ class DestinationController extends Controller
 
         $destination->delete();
 
-        return redirect()->route('admin.destinations.index')->with('success', 'Destinasi berhasil dihapus.');
+        return redirect()->route('admin.destinations.index')->with('success', __('Destinasi berhasil dihapus.'));
     }
 
     private function validateDestination(Request $request): array

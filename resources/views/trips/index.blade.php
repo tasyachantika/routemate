@@ -13,7 +13,7 @@
             <div class="col-md-4 mb-4">
                 <div class="card h-100">
                     <div class="card-body">
-                        <span class="badge bg-secondary">{{ $statuses[$trip->status] ?? $trip->status }}</span>
+                        <span class="badge bg-secondary">{{ __($statuses[$trip->status] ?? $trip->status) }}</span>
                         <h5 class="card-title mt-2">{{ $trip->title }}</h5>
                         <p class="text-muted mb-1">{{ $trip->destination_country ?? __('Negara tujuan belum diisi') }}</p>
                         <p class="mb-1">
@@ -25,7 +25,7 @@
                     </div>
                     <div class="card-footer bg-white border-0 pb-3 d-flex gap-2">
                         <a href="{{ route('trips.show', $trip) }}" class="btn btn-outline-primary flex-grow-1">{{ __('Buka') }}</a>
-                        <a href="{{ route('trips.edit', $trip) }}" class="btn btn-outline-secondary">Edit</a>
+                        <a href="{{ route('trips.edit', $trip) }}" class="btn btn-outline-secondary">{{ __('Edit') }}</a>
                         <form method="POST" action="{{ route('trips.destroy', $trip) }}" onsubmit="return confirm('{{ __("Hapus itinerary ini beserta seluruh isinya?") }}')">
                             @csrf
                             @method('DELETE')

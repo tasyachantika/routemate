@@ -35,7 +35,7 @@ class ReportController extends Controller
 
         $perCategory = Destination::query()
             ->leftJoin('categories', 'categories.id', '=', 'destinations.category_id')
-            ->selectRaw("COALESCE(categories.name, 'Tanpa Kategori') as category_name, COUNT(*) as total")
+            ->selectRaw("COALESCE(categories.name, ?) as category_name, COUNT(*) as total", [__('Tanpa Kategori')])
             ->groupBy('category_name')
             ->orderByDesc('total')
             ->get();
@@ -57,14 +57,14 @@ class ReportController extends Controller
 
         return response()->streamDownload(function () use ($rows) {
             $out = fopen('php://output', 'w');
-            fputcsv($out, ['Peringkat', 'Destinasi', 'Kota', 'Negara', 'Kategori', 'Jumlah Itinerary', 'Jumlah Trip']);
+            fputcsv($out, [__('Peringkat'), __('Destinasi'), __('Kota'), __('Negara'), __('Kategori'), __('Jumlah Itinerary'), __('Jumlah Trip')]);
             foreach ($rows as $i => $row) {
                 fputcsv($out, [
                     $i + 1,
                     $row->name,
                     $row->city,
                     $row->country,
-                    $row->category_name ?? 'Tanpa Kategori',
+                    $row->category_name ?? __('Tanpa Kategori'),
                     $row->itinerary_count,
                     $row->trip_count,
                 ]);
