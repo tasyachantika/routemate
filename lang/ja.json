@@ -239,5 +239,6 @@
     "tanggal belum diatur": "日付は未設定です",
     "waktu setempat": "現地時間",
     "Gratis": "無料",
-    "Dalam mata uang negara destinasi (Indonesia: Rupiah, Jepang: Yen, dan seterusnya). Isi 0 bila gratis; kosongkan bila belum diketahui.": "目的地の国の通貨で入力します（インドネシア：ルピア、日本：円、など）。無料の場合は0を入力し、不明な場合は空欄にしてください。"
+    "Dalam mata uang negara destinasi (Indonesia: Rupiah, Jepang: Yen, dan seterusnya). Isi 0 bila gratis; kosongkan bila belum diketahui.": "目的地の国の通貨で入力します（インドネシア：ルピア、日本：円、など）。無料の場合は0を入力し、不明な場合は空欄にしてください。",
+    "Perkiraan tarif standar dewasa. Harga tersimpan dalam mata uang setempat dan ditampilkan mengikuti bahasa yang dipilih, dikonversi dengan kurs perkiraan; harga dapat berubah sewaktu-waktu.": "標準的な大人料金の目安です。料金は現地通貨で保存され、選択した言語の通貨に概算レートで換算して表示されます。料金は変更される場合があります。"
 }

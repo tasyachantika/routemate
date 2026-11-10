@@ -84,9 +84,57 @@ class Money
     }
 
     /**
-     * Format biaya masuk destinasi dalam mata uang negara tujuannya.
-     * Mengembalikan null bila biaya tidak tercatat, dan teks "Gratis"
-     * (diterjemahkan mengikuti bahasa antarmuka) bila biayanya 0.
+     * Bahasa antarmuka => mata uang tampilan biaya masuk.
+     * Keputusan pemilik aplikasi: mata uang mengikuti bahasa yang dipilih
+     * pengunjung (Indonesia=Rupiah, English=Dolar AS, Jepang=Yen,
+     * Korea=Won, Mandarin=Yuan, Melayu=Ringgit).
+     *
+     * @var array<string, string>
+     */
+    private static array $localeCurrencies = [
+        'id' => 'IDR',
+        'en' => 'USD',
+        'ja' => 'JPY',
+        'ko' => 'KRW',
+        'zh' => 'CNY',
+        'ms' => 'MYR',
+    ];
+
+    /**
+     * Kurs perkiraan TETAP: nilai 1 USD dalam tiap mata uang
+     * (patokan November 2026, dibulatkan). Hanya untuk tampilan biaya
+     * masuk agar pengunjung melihat angka dalam mata uang yang familiar;
+     * bukan kurs transaksi. Harga yang tersimpan di database selalu
+     * tarif lokal aslinya dan tidak pernah diubah tabel ini.
+     *
+     * @var array<string, float>
+     */
+    private static array $usdRates = [
+        'IDR' => 15600,
+        'JPY' => 156,
+        'USD' => 1,
+        'KRW' => 1400,
+        'MYR' => 4.2,
+        'SGD' => 1.30,
+        'THB' => 33,
+        'VND' => 26000,
+        'PHP' => 59,
+        'CNY' => 7.1,
+        'EUR' => 0.86,
+        'GBP' => 0.75,
+        'AED' => 3.67,
+        'AUD' => 1.52,
+        'CAD' => 1.39,
+        'EGP' => 48,
+        'INR' => 88,
+    ];
+
+    /**
+     * Format biaya masuk destinasi. Nilai tersimpan adalah tarif lokal
+     * negara destinasi; tampilan dikonversi dengan kurs perkiraan ke
+     * mata uang yang mengikuti bahasa antarmuka aktif. Mengembalikan
+     * null bila biaya tidak tercatat, dan teks "Gratis" (diterjemahkan
+     * mengikuti bahasa antarmuka) bila biayanya 0.
      */
     public static function entranceFee(float|int|null $amount, ?string $country): ?string
     {
@@ -98,8 +146,23 @@ class Money
             return __('Gratis');
         }
 
-        $currency = self::$countryCurrencies[$country ?? ''] ?? 'IDR';
+        $source = self::$countryCurrencies[$country ?? ''] ?? 'IDR';
+        $display = self::$localeCurrencies[app()->getLocale()] ?? 'IDR';
+        $value = (float) $amount;
 
-        return self::format($amount, $currency);
+        if ($source !== $display) {
+            // Konversi lewat USD sebagai mata uang jembatan.
+            $value = $value / self::$usdRates[$source] * self::$usdRates[$display];
+
+            // Bulatkan wajar untuk mata uang bernominal besar.
+            $value = match ($display) {
+                'IDR' => round($value / 500) * 500,
+                'KRW', 'VND' => round($value / 100) * 100,
+                'JPY' => round($value / 10) * 10,
+                default => $value,
+            };
+        }
+
+        return self::format($value, $display);
     }
 }

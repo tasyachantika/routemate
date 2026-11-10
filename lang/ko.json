@@ -239,5 +239,6 @@
     "tanggal belum diatur": "날짜가 설정되지 않았습니다",
     "waktu setempat": "현지 시간",
     "Gratis": "무료",
-    "Dalam mata uang negara destinasi (Indonesia: Rupiah, Jepang: Yen, dan seterusnya). Isi 0 bila gratis; kosongkan bila belum diketahui.": "목적지 국가의 통화로 입력하세요(인도네시아: 루피아, 일본: 엔 등). 무료이면 0을 입력하고, 알 수 없으면 비워 두세요."
+    "Dalam mata uang negara destinasi (Indonesia: Rupiah, Jepang: Yen, dan seterusnya). Isi 0 bila gratis; kosongkan bila belum diketahui.": "목적지 국가의 통화로 입력하세요(인도네시아: 루피아, 일본: 엔 등). 무료이면 0을 입력하고, 알 수 없으면 비워 두세요.",
+    "Perkiraan tarif standar dewasa. Harga tersimpan dalam mata uang setempat dan ditampilkan mengikuti bahasa yang dipilih, dikonversi dengan kurs perkiraan; harga dapat berubah sewaktu-waktu.": "표준 성인 요금의 예상 금액입니다. 요금은 현지 통화로 저장되며, 선택한 언어의 통화로 대략적인 환율을 적용해 표시됩니다. 요금은 변경될 수 있습니다."
 }

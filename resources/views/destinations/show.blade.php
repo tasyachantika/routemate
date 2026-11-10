@@ -33,7 +33,7 @@
                     <td>
                         @if ($destination->entrance_fee !== null)
                             {{ \App\Support\Money::entranceFee((float) $destination->entrance_fee, $destination->country) }}
-                            <div class="text-muted small">{{ __('Perkiraan tarif standar dewasa dalam mata uang setempat; harga dapat berubah sewaktu-waktu.') }}</div>
+                            <div class="text-muted small">{{ __('Perkiraan tarif standar dewasa. Harga tersimpan dalam mata uang setempat dan ditampilkan mengikuti bahasa yang dipilih, dikonversi dengan kurs perkiraan; harga dapat berubah sewaktu-waktu.') }}</div>
                         @else
                             {{ __('Gratis / tidak diketahui') }}
                         @endif

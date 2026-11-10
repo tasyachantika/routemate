@@ -239,5 +239,6 @@
     "tanggal belum diatur": "tarikh belum ditetapkan",
     "waktu setempat": "waktu tempatan",
     "Gratis": "Percuma",
-    "Dalam mata uang negara destinasi (Indonesia: Rupiah, Jepang: Yen, dan seterusnya). Isi 0 bila gratis; kosongkan bila belum diketahui.": "Dalam mata wang negara destinasi (Indonesia: Rupiah, Jepun: Yen, dan seterusnya). Isi 0 jika percuma; kosongkan jika belum diketahui."
+    "Dalam mata uang negara destinasi (Indonesia: Rupiah, Jepang: Yen, dan seterusnya). Isi 0 bila gratis; kosongkan bila belum diketahui.": "Dalam mata wang negara destinasi (Indonesia: Rupiah, Jepun: Yen, dan seterusnya). Isi 0 jika percuma; kosongkan jika belum diketahui.",
+    "Perkiraan tarif standar dewasa. Harga tersimpan dalam mata uang setempat dan ditampilkan mengikuti bahasa yang dipilih, dikonversi dengan kurs perkiraan; harga dapat berubah sewaktu-waktu.": "Anggaran tambang standard dewasa. Harga disimpan dalam mata wang tempatan dan dipaparkan mengikut mata wang bahasa yang dipilih, ditukar dengan kadar anggaran; harga boleh berubah pada bila-bila masa."
 }

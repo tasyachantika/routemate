@@ -239,5 +239,6 @@
     "tanggal belum diatur": "尚未设置日期",
     "waktu setempat": "当地时间",
     "Gratis": "免费",
-    "Dalam mata uang negara destinasi (Indonesia: Rupiah, Jepang: Yen, dan seterusnya). Isi 0 bila gratis; kosongkan bila belum diketahui.": "以目的地国家的货币填写（印度尼西亚：印尼盾，日本：日元，以此类推）。免费填 0，未知请留空。"
+    "Dalam mata uang negara destinasi (Indonesia: Rupiah, Jepang: Yen, dan seterusnya). Isi 0 bila gratis; kosongkan bila belum diketahui.": "以目的地国家的货币填写（印度尼西亚：印尼盾，日本：日元，以此类推）。免费填 0，未知请留空。",
+    "Perkiraan tarif standar dewasa. Harga tersimpan dalam mata uang setempat dan ditampilkan mengikuti bahasa yang dipilih, dikonversi dengan kurs perkiraan; harga dapat berubah sewaktu-waktu.": "标准成人票价的估算。价格以当地货币存储，并按所选语言的货币以近似汇率换算显示；价格可能随时变动。"
 }
