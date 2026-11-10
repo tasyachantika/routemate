@@ -2,48 +2,84 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>@yield('title', 'Admin RouteMate')</title>
+    <title>@yield('title', 'Admin — RouteMate')</title>
+    <link rel="icon" type="image/png" href="{{ asset('images/logo-routemate.png') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <style>
+        :root { --rm-teal: #0d9488; --rm-blue: #0284c7; }
+        body { font-family: 'Plus Jakarta Sans', system-ui, sans-serif; background: #f1f5f9; color: #1e293b; }
+        .brand-gradient { background: linear-gradient(90deg, var(--rm-teal), var(--rm-blue)); }
+        .navbar-brand img { height: 34px; width: auto; }
+        .btn-brand { background: linear-gradient(90deg, var(--rm-teal), var(--rm-blue)); border: none; color: #fff; }
+        .btn-brand:hover, .btn-brand:focus { color: #fff; opacity: .92; }
+        .card { border: none; border-radius: 1rem; box-shadow: 0 1px 3px rgba(15, 23, 42, .08); }
+        .admin-nav .nav-link { color: #334155; border-radius: .65rem; padding: .5rem .9rem; font-weight: 600; }
+        .admin-nav .nav-link:hover { background: #e2e8f0; }
+        .admin-nav .nav-link.active { background: linear-gradient(90deg, var(--rm-teal), var(--rm-blue)); color: #fff; }
+        .table thead th { background: #f8fafc; }
+    </style>
     @stack('styles')
 </head>
-<body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container">
-            <a class="navbar-brand fw-bold" href="{{ route('admin.dashboard') }}">RouteMate Admin</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarAdmin">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarAdmin">
-                <ul class="navbar-nav me-auto">
-                    <li class="nav-item"><a class="nav-link" href="{{ route('admin.dashboard') }}">Dashboard</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ route('admin.categories.index') }}">Kategori</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ route('admin.destinations.index') }}">Destinasi</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ route('home') }}">Lihat Situs</a></li>
-                </ul>
-                <div class="d-flex align-items-center gap-2">
-                    <span class="text-white">{{ auth()->user()->name }}</span>
-                    <form method="POST" action="{{ route('logout') }}" class="m-0">
-                        @csrf
-                        <button type="submit" class="btn btn-light btn-sm">Keluar</button>
-                    </form>
-                </div>
+<body class="d-flex flex-column min-vh-100">
+
+<nav class="navbar navbar-dark brand-gradient shadow-sm">
+    <div class="container">
+        <a class="navbar-brand d-flex align-items-center gap-2 fw-bold" href="{{ route('admin.dashboard') }}">
+            <img src="{{ asset('images/logo-routemate.png') }}" alt="Logo RouteMate">
+            <span>RouteMate <span class="badge bg-light text-dark align-middle">Admin</span></span>
+        </a>
+        <div class="d-flex align-items-center gap-2">
+            <a href="{{ url('/') }}" class="btn btn-outline-light btn-sm"><i class="bi bi-globe"></i> Lihat Situs</a>
+            <form method="POST" action="{{ route('logout') }}" class="d-inline">
+                @csrf
+                <button type="submit" class="btn btn-light btn-sm fw-semibold">Keluar</button>
+            </form>
+        </div>
+    </div>
+</nav>
+
+<div class="container mt-3">
+    <ul class="nav admin-nav gap-2 flex-wrap">
+        <li class="nav-item"><a class="nav-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}" href="{{ route('admin.dashboard') }}"><i class="bi bi-speedometer2"></i> Dashboard</a></li>
+        <li class="nav-item"><a class="nav-link {{ request()->routeIs('admin.categories.*') ? 'active' : '' }}" href="{{ route('admin.categories.index') }}"><i class="bi bi-tags"></i> Kategori</a></li>
+        <li class="nav-item"><a class="nav-link {{ request()->routeIs('admin.destinations.*') ? 'active' : '' }}" href="{{ route('admin.destinations.index') }}"><i class="bi bi-geo-alt"></i> Destinasi</a></li>
+        <li class="nav-item"><a class="nav-link {{ request()->routeIs('admin.report*') ? 'active' : '' }}" href="{{ url('/admin/report') }}"><i class="bi bi-bar-chart"></i> Laporan</a></li>
+    </ul>
+</div>
+
+<main class="flex-grow-1">
+    <div class="container py-4">
+        @if (session('success'))
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <i class="bi bi-check-circle-fill"></i> {{ session('success') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Tutup"></button>
             </div>
-        </div>
-    </nav>
+        @endif
+        @if (session('error'))
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <i class="bi bi-exclamation-triangle-fill"></i> {{ session('error') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Tutup"></button>
+            </div>
+        @endif
 
-    <main class="py-4">
-        <div class="container">
-            @if (session('success'))
-                <div class="alert alert-success">{{ session('success') }}</div>
-            @endif
+        @yield('content')
+    </div>
+</main>
 
-            @yield('content')
-        </div>
-    </main>
+<footer class="py-3 mt-auto" style="background:#0f172a;">
+    <div class="container d-flex flex-wrap justify-content-between align-items-center gap-2">
+        <span class="small" style="color:rgba(255,255,255,.65)">&copy; {{ date('Y') }} RouteMate — Panel Admin</span>
+        <span class="small" style="color:rgba(255,255,255,.65)">Area terbatas: hanya untuk administrator.</span>
+    </div>
+</footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    @stack('scripts')
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+@stack('scripts')
 </body>
 </html>

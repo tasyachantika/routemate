@@ -1,59 +1,59 @@
 <?php
 
-use App\Http\Controllers\Admin\AdminAuthController;
-use App\Http\Controllers\Admin\CategoryController;
-use App\Http\Controllers\Admin\DestinationController as AdminDestinationController;
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\DestinationController;
-use App\Http\Controllers\MapController;
-use App\Models\Category;
+namespace App\Http\Controllers;
+
 use App\Models\Destination;
-use App\Models\Trip;
-use App\Models\User;
-use Illuminate\Support\Facades\Route;
+use Illuminate\Http\Request;
 
-Route::get('/', function () {
-    $destinations = Destination::with('category')->latest()->take(6)->get();
-
-    return view('home', compact('destinations'));
-})->name('home');
-
-Route::middleware('guest')->group(function () {
-    Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
-    Route::post('/register', [AuthController::class, 'register']);
-
-    Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
-    Route::post('/login', [AuthController::class, 'login'])->middleware('throttle:5,1');
-
-    Route::get('/admin/login', [AdminAuthController::class, 'showLogin'])->name('admin.login');
-    Route::post('/admin/login', [AdminAuthController::class, 'login'])->middleware('throttle:5,1');
-});
-
-Route::middleware('auth')->group(function () {
-    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
-
-    Route::get('/dashboard', function () {
-        $tripsCount = auth()->user()->trips()->count();
-        $destinationsCount = Destination::count();
-
-        return view('dashboard', compact('tripsCount', 'destinationsCount'));
-    })->name('dashboard');
-
-    Route::get('/destinations', [DestinationController::class, 'index'])->name('destinations.index');
-    Route::get('/destinations/{destination}', [DestinationController::class, 'show'])->name('destinations.show');
-    Route::get('/map', [MapController::class, 'index'])->name('map.index');
-});
-
-Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
-    Route::get('/dashboard', function () {
-        return view('admin.dashboard', [
-            'destinationsCount' => Destination::count(),
-            'categoriesCount' => Category::count(),
-            'usersCount' => User::count(),
-            'tripsCount' => Trip::count(),
+class MapController extends Controller
+{
+    public function index(Request $request)
+    {
+        $validated = $request->validate([
+            'q' => ['nullable', 'string', 'max:100'],
+            'country' => ['nullable', 'string', 'max:100'],
         ]);
-    })->name('dashboard');
 
-    Route::resource('categories', CategoryController::class)->except('show');
-    Route::resource('destinations', AdminDestinationController::class)->except('show');
-});
+        $query = Destination::with('category')->orderBy('name');
+
+        if (! empty($validated['q'] ?? null)) {
+            $keyword = str_replace(['\\', '%', '_'], ['\\\\', '\\%', '\\_'], $validated['q']);
+            $query->where(function ($sub) use ($keyword) {
+                $sub->where('name', 'like', '%' . $keyword . '%')
+                    ->orWhere('city', 'like', '%' . $keyword . '%')
+                    ->orWhere('country', 'like', '%' . $keyword . '%');
+            });
+        }
+
+        if (! empty($validated['country'] ?? null)) {
+            $query->where('country', $validated['country']);
+        }
+
+        $destinations = $query->get();
+
+        $countries = Destination::query()
+            ->distinct()
+            ->orderBy('country')
+            ->pluck('country');
+
+        $mapDestinations = $destinations->map(function (Destination $destination) {
+            return [
+                'name' => $destination->name,
+                'city' => $destination->city,
+                'country' => $destination->country,
+                'category' => $destination->category->name ?? 'Tanpa Kategori',
+                'latitude' => (float) $destination->latitude,
+                'longitude' => (float) $destination->longitude,
+                'detail_url' => route('destinations.show', $destination),
+            ];
+        })->values();
+
+        return view('map.index', [
+            'destinations' => $destinations,
+            'mapDestinations' => $mapDestinations,
+            'countries' => $countries,
+            'q' => $validated['q'] ?? '',
+            'country' => $validated['country'] ?? '',
+        ]);
+    }
+}
