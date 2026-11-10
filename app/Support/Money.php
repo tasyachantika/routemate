@@ -5,9 +5,12 @@ namespace App\Support;
 /**
  * Format tampilan uang per mata uang.
  *
- * RouteMate v1 TIDAK melakukan konversi kurs: angka hanya diformat
- * sesuai kebiasaan mata uangnya (simbol, jumlah desimal, pemisah ribuan)
- * supaya Rp100.000 tidak tertukar dengan ¥100.000.
+ * Anggaran trip TIDAK dikonversi: total ditampilkan terpisah per mata
+ * uang yang dipakai pengguna. Khusus BIAYA MASUK destinasi, kebijakan
+ * tampilannya (keputusan pemilik aplikasi): destinasi Indonesia dalam
+ * Rupiah, destinasi luar negeri dalam Dolar AS — nilai Dolar-nya adalah
+ * setara perkiraan dari tarif lokal terpublikasi, disimpan di database
+ * oleh seeder harga, dan selalu ditampilkan dengan label perkiraan.
  */
 class Money
 {
@@ -36,36 +39,6 @@ class Money
         'INR' => ['₹', 0, '.', ','],
     ];
 
-    /**
-     * Negara destinasi => mata uang lokal untuk biaya masuk.
-     * Biaya masuk destinasi selalu dicatat dalam mata uang negara setempat.
-     *
-     * @var array<string, string>
-     */
-    private static array $countryCurrencies = [
-        'Indonesia' => 'IDR',
-        'Jepang' => 'JPY',
-        'Korea Selatan' => 'KRW',
-        'Malaysia' => 'MYR',
-        'Singapura' => 'SGD',
-        'Thailand' => 'THB',
-        'Vietnam' => 'VND',
-        'Filipina' => 'PHP',
-        'Tiongkok' => 'CNY',
-        'Prancis' => 'EUR',
-        'Inggris' => 'GBP',
-        'Italia' => 'EUR',
-        'Spanyol' => 'EUR',
-        'Yunani' => 'EUR',
-        'Uni Emirat Arab' => 'AED',
-        'Australia' => 'AUD',
-        'Amerika Serikat' => 'USD',
-        'Kanada' => 'CAD',
-        'Mesir' => 'EGP',
-        'India' => 'INR',
-        'Kamboja' => 'USD',
-    ];
-
     public static function format(float|int|null $amount, string $currency): string
     {
         if ($amount === null) {
@@ -80,8 +53,11 @@ class Money
     }
 
     /**
-     * Format biaya masuk destinasi berdasarkan negara tujuannya.
-     * Mengembalikan null bila biaya tidak tercatat.
+     * Format biaya masuk destinasi: Indonesia dalam Rupiah, negara lain
+     * dalam Dolar AS (nilai yang tersimpan untuk destinasi luar negeri
+     * memang sudah Dolar AS — lihat UsdEntranceFeesSeeder). Nilai 0
+     * berarti tempatnya gratis. Mengembalikan null bila biaya memang
+     * belum tercatat.
      */
     public static function entranceFee(float|int|null $amount, ?string $country): ?string
     {
@@ -89,7 +65,11 @@ class Money
             return null;
         }
 
-        $currency = self::$countryCurrencies[$country ?? ''] ?? 'IDR';
+        if ((float) $amount === 0.0) {
+            return __('Gratis');
+        }
+
+        $currency = ($country === 'Indonesia') ? 'IDR' : 'USD';
 
         return self::format($amount, $currency);
     }

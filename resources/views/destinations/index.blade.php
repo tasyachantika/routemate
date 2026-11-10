@@ -51,7 +51,7 @@
                         <h5 class="card-title mt-2">{{ $destination->name }}</h5>
                         <p class="text-muted mb-1">{{ $destination->city }}, {{ $destination->country }}</p>
                         @if ($destination->entrance_fee !== null)
-                            <p class="mb-1 small"><span class="text-muted">{{ __('Tiket masuk:') }}</span> <strong>{{ \App\Support\Money::entranceFee((float) $destination->entrance_fee, $destination->country) }}</strong> <span class="text-muted">{{ __('(perkiraan)') }}</span></p>
+                            <p class="mb-1 small"><span class="text-muted">{{ __('Tiket masuk:') }}</span> <strong>{{ \App\Support\Money::entranceFee((float) $destination->entrance_fee, $destination->country) }}</strong>@if ((float) $destination->entrance_fee > 0) <span class="text-muted">{{ __('(perkiraan)') }}</span>@endif</p>
                         @endif
                         <p class="card-text">{{ \Illuminate\Support\Str::limit($destination->description, 100) }}</p>
                     </div>
