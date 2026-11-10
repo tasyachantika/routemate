@@ -27,6 +27,16 @@ Route::get('/', function () {
     return view('home', compact('destinations'));
 })->name('home');
 
+// Pengalih bahasa antarmuka (Indonesia / Inggris). Selalu bisa diakses,
+// pilihan disimpan di session lalu diterapkan middleware SetLocale.
+Route::get('/language/{locale}', function (string $locale) {
+    if (in_array($locale, ['id', 'en'], true)) {
+        session(['locale' => $locale]);
+    }
+
+    return redirect()->back();
+})->name('language.switch');
+
 Route::middleware('guest')->group(function () {
     Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
     Route::post('/register', [AuthController::class, 'register']);

@@ -10,8 +10,8 @@
                 @csrf
                 @method('PUT')
                 @include('trips._form')
-                <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
-                <a href="{{ route('trips.show', $trip) }}" class="btn btn-outline-secondary">Batal</a>
+                <button type="submit" class="btn btn-primary">{{ __('Simpan Perubahan') }}</button>
+                <a href="{{ route('trips.show', $trip) }}" class="btn btn-outline-secondary">{{ __('Batal') }}</a>
             </form>
         </div>
     </div>

@@ -1,13 +1,13 @@
 @extends('layouts.app')
 
-@section('title', 'Daftar - RouteMate')
+@section('title', __('Daftar') . ' - RouteMate')
 
 @section('content')
 <div class="row justify-content-center">
     <div class="col-md-6">
         <div class="card">
             <div class="card-body">
-                <h1 class="h3 mb-3">Daftar Akun RouteMate</h1>
+                <h1 class="h3 mb-3">{{ __('Daftar Akun RouteMate') }}</h1>
 
                 @if ($errors->any())
                     <div class="alert alert-danger">
@@ -22,7 +22,7 @@
                 <form method="POST" action="{{ route('register') }}">
                     @csrf
                     <div class="mb-3">
-                        <label class="form-label">Nama</label>
+                        <label class="form-label">{{ __('Nama') }}</label>
                         <input type="text" name="name" class="form-control" value="{{ old('name') }}" required>
                     </div>
                     <div class="mb-3">
@@ -34,7 +34,7 @@
                         <input type="password" name="password" class="form-control" required>
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">Konfirmasi Password</label>
+                        <label class="form-label">{{ __('Konfirmasi Password') }}</label>
                         <input type="password" name="password_confirmation" class="form-control" required>
                     </div>
                 <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
@@ -42,11 +42,11 @@
 @error('cf-turnstile-response')
     <div class="text-danger small mb-3">{{ $message }}</div>
 @enderror
-                    <button type="submit" class="btn btn-primary w-100">Daftar</button>
+                    <button type="submit" class="btn btn-primary w-100">{{ __('Daftar') }}</button>
 
                 </form>
 
-                <p class="mt-3 mb-0">Sudah punya akun? <a href="{{ route('login') }}">Masuk</a></p>
+                <p class="mt-3 mb-0">{{ __('Sudah punya akun?') }} <a href="{{ route('login') }}">{{ __('Masuk') }}</a></p>
             </div>
         </div>
     </div>

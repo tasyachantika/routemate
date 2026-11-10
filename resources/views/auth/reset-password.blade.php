@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Buat Password Baru - RouteMate')
+@section('title', __('Buat Password Baru') . ' - RouteMate')
 
 @section('content')
 <div class="container pb-5">
@@ -8,7 +8,7 @@
         <div class="col-md-6">
             <div class="card">
                 <div class="card-body">
-                    <h1 class="h3 mb-3">Buat Password Baru</h1>
+                    <h1 class="h3 mb-3">{{ __('Buat Password Baru') }}</h1>
 
                     @if ($errors->any())
                         <div class="alert alert-danger">
@@ -28,14 +28,14 @@
                             <input type="email" name="email" class="form-control" value="{{ old('email', $email) }}" required>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label">Password Baru</label>
+                            <label class="form-label">{{ __('Password Baru') }}</label>
                             <input type="password" name="password" class="form-control" required>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label">Konfirmasi Password Baru</label>
+                            <label class="form-label">{{ __('Konfirmasi Password Baru') }}</label>
                             <input type="password" name="password_confirmation" class="form-control" required>
                         </div>
-                        <button type="submit" class="btn btn-primary w-100">Simpan Password Baru</button>
+                        <button type="submit" class="btn btn-primary w-100">{{ __('Simpan Password Baru') }}</button>
                     </form>
                 </div>
             </div>

@@ -4,16 +4,16 @@
 
 @section('content')
 <div class="container pb-5">
-    <h1 class="mb-3">Dashboard Pengguna</h1>
-    <p>Halo, {{ auth()->user()->name }}! Selamat datang di RouteMate.</p>
+    <h1 class="mb-3">{{ __('Dashboard Pengguna') }}</h1>
+    <p>{{ __('Halo,') }} {{ auth()->user()->name }}! {{ __('Selamat datang di RouteMate.') }}</p>
 
     <div class="row">
         <div class="col-md-6 mb-3">
             <div class="card text-center">
                 <div class="card-body">
                     <h2>{{ $tripsCount }}</h2>
-                    <p class="text-muted mb-2">Itinerary Saya</p>
-                    <a href="{{ route('trips.index') }}" class="btn btn-sm btn-primary">Buka Itinerary</a>
+                    <p class="text-muted mb-2">{{ __('Itinerary Saya') }}</p>
+                    <a href="{{ route('trips.index') }}" class="btn btn-sm btn-primary">{{ __('Buka Itinerary') }}</a>
                 </div>
             </div>
         </div>
@@ -21,8 +21,8 @@
             <div class="card text-center">
                 <div class="card-body">
                     <h2>{{ $destinationsCount }}</h2>
-                    <p class="text-muted mb-2">Destinasi Tersedia</p>
-                    <a href="{{ route('destinations.index') }}" class="btn btn-sm btn-primary">Jelajahi Destinasi</a>
+                    <p class="text-muted mb-2">{{ __('Destinasi Tersedia') }}</p>
+                    <a href="{{ route('destinations.index') }}" class="btn btn-sm btn-primary">{{ __('Jelajahi Destinasi') }}</a>
                 </div>
             </div>
         </div>
@@ -30,22 +30,22 @@
 
     <div class="card mt-2">
         <div class="card-body">
-            <h2 class="h5">Akun Saya</h2>
+            <h2 class="h5">{{ __('Akun Saya') }}</h2>
             <p class="mb-1">Email: <strong>{{ auth()->user()->email }}</strong></p>
             <p class="mb-3">
-                Status email:
+                {{ __('Status email:') }}
                 @if (auth()->user()->hasVerifiedEmail())
-                    <span class="badge bg-success">Terverifikasi</span>
+                    <span class="badge bg-success">{{ __('Terverifikasi') }}</span>
                 @else
-                    <span class="badge bg-warning text-dark">Belum terverifikasi</span>
+                    <span class="badge bg-warning text-dark">{{ __('Belum terverifikasi') }}</span>
                 @endif
             </p>
             <div class="d-flex flex-wrap gap-2">
-                <a href="{{ route('password.change') }}" class="btn btn-outline-primary btn-sm"><i class="bi bi-key"></i> Ubah Password</a>
+                <a href="{{ route('password.change') }}" class="btn btn-outline-primary btn-sm"><i class="bi bi-key"></i> {{ __('Ubah Password') }}</a>
                 @unless (auth()->user()->hasVerifiedEmail())
-                    <a href="{{ route('verification.notice') }}" class="btn btn-outline-secondary btn-sm"><i class="bi bi-envelope-check"></i> Verifikasi Email</a>
+                    <a href="{{ route('verification.notice') }}" class="btn btn-outline-secondary btn-sm"><i class="bi bi-envelope-check"></i> {{ __('Verifikasi Email') }}</a>
                 @endunless
-                <a href="{{ route('map.index') }}" class="btn btn-outline-secondary btn-sm"><i class="bi bi-map"></i> Buka Peta</a>
+                <a href="{{ route('map.index') }}" class="btn btn-outline-secondary btn-sm"><i class="bi bi-map"></i> {{ __('Buka Peta') }}</a>
             </div>
         </div>
     </div>

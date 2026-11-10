@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Lupa Password - RouteMate')
+@section('title', __('Lupa Password') . ' - RouteMate')
 
 @section('content')
 <div class="container pb-5">
@@ -8,8 +8,8 @@
         <div class="col-md-6">
             <div class="card">
                 <div class="card-body">
-                    <h1 class="h3 mb-3">Lupa Password</h1>
-                    <p class="text-muted">Masukkan email akunmu. Kami akan mengirimkan tautan untuk membuat password baru. Tautan hanya berlaku terbatas dan hanya bisa dipakai satu kali.</p>
+                    <h1 class="h3 mb-3">{{ __('Lupa Password') }}</h1>
+                    <p class="text-muted">{{ __('Masukkan email akunmu. Kami akan mengirimkan tautan untuk membuat password baru. Tautan hanya berlaku terbatas dan hanya bisa dipakai satu kali.') }}</p>
 
                     @if (session('status'))
                         <div class="alert alert-success">{{ session('status') }}</div>
@@ -31,10 +31,10 @@
                             <label class="form-label">Email</label>
                             <input type="email" name="email" class="form-control" value="{{ old('email') }}" required autofocus>
                         </div>
-                        <button type="submit" class="btn btn-primary w-100">Kirim Tautan Reset</button>
+                        <button type="submit" class="btn btn-primary w-100">{{ __('Kirim Tautan Reset') }}</button>
                     </form>
 
-                    <p class="mt-3 mb-0">Ingat passwordmu? <a href="{{ route('login') }}">Kembali masuk</a></p>
+                    <p class="mt-3 mb-0">{{ __('Ingat passwordmu?') }} <a href="{{ route('login') }}">{{ __('Kembali masuk') }}</a></p>
                 </div>
             </div>
         </div>

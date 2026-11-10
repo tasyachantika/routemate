@@ -35,10 +35,15 @@
             <span>RouteMate <span class="badge bg-light text-dark align-middle">Admin</span></span>
         </a>
         <div class="d-flex align-items-center gap-2">
-            <a href="{{ url('/') }}" class="btn btn-outline-light btn-sm"><i class="bi bi-globe"></i> Lihat Situs</a>
+            <span class="d-flex align-items-center gap-1 me-1">
+                <a class="text-white text-decoration-none {{ app()->getLocale() === 'id' ? 'fw-bold' : '' }}" href="{{ route('language.switch', 'id') }}">ID</a>
+                <span style="color:rgba(255,255,255,.5)">|</span>
+                <a class="text-white text-decoration-none {{ app()->getLocale() === 'en' ? 'fw-bold' : '' }}" href="{{ route('language.switch', 'en') }}">EN</a>
+            </span>
+            <a href="{{ url('/') }}" class="btn btn-outline-light btn-sm"><i class="bi bi-globe"></i> {{ __('Lihat Situs') }}</a>
             <form method="POST" action="{{ route('logout') }}" class="d-inline">
                 @csrf
-                <button type="submit" class="btn btn-light btn-sm fw-semibold">Keluar</button>
+                <button type="submit" class="btn btn-light btn-sm fw-semibold">{{ __('Keluar') }}</button>
             </form>
         </div>
     </div>
@@ -47,10 +52,10 @@
 <div class="container mt-3">
     <ul class="nav admin-nav gap-2 flex-wrap">
         <li class="nav-item"><a class="nav-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}" href="{{ route('admin.dashboard') }}"><i class="bi bi-speedometer2"></i> Dashboard</a></li>
-        <li class="nav-item"><a class="nav-link {{ request()->routeIs('admin.categories.*') ? 'active' : '' }}" href="{{ route('admin.categories.index') }}"><i class="bi bi-tags"></i> Kategori</a></li>
-        <li class="nav-item"><a class="nav-link {{ request()->routeIs('admin.destinations.*') ? 'active' : '' }}" href="{{ route('admin.destinations.index') }}"><i class="bi bi-geo-alt"></i> Destinasi</a></li>
-        <li class="nav-item"><a class="nav-link {{ request()->routeIs('admin.report*') ? 'active' : '' }}" href="{{ route('admin.report') }}"><i class="bi bi-bar-chart"></i> Laporan</a></li>
-        <li class="nav-item"><a class="nav-link {{ request()->routeIs('admin.activity') ? 'active' : '' }}" href="{{ route('admin.activity') }}"><i class="bi bi-journal-text"></i> Log Aktivitas</a></li>
+        <li class="nav-item"><a class="nav-link {{ request()->routeIs('admin.categories.*') ? 'active' : '' }}" href="{{ route('admin.categories.index') }}"><i class="bi bi-tags"></i> {{ __('Kategori') }}</a></li>
+        <li class="nav-item"><a class="nav-link {{ request()->routeIs('admin.destinations.*') ? 'active' : '' }}" href="{{ route('admin.destinations.index') }}"><i class="bi bi-geo-alt"></i> {{ __('Destinasi') }}</a></li>
+        <li class="nav-item"><a class="nav-link {{ request()->routeIs('admin.report*') ? 'active' : '' }}" href="{{ route('admin.report') }}"><i class="bi bi-bar-chart"></i> {{ __('Laporan') }}</a></li>
+        <li class="nav-item"><a class="nav-link {{ request()->routeIs('admin.activity') ? 'active' : '' }}" href="{{ route('admin.activity') }}"><i class="bi bi-journal-text"></i> {{ __('Log Aktivitas') }}</a></li>
     </ul>
 </div>
 
@@ -59,13 +64,13 @@
         @if (session('success'))
             <div class="alert alert-success alert-dismissible fade show" role="alert">
                 <i class="bi bi-check-circle-fill"></i> {{ session('success') }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Tutup"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="{{ __('Tutup') }}"></button>
             </div>
         @endif
         @if (session('error'))
             <div class="alert alert-danger alert-dismissible fade show" role="alert">
                 <i class="bi bi-exclamation-triangle-fill"></i> {{ session('error') }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Tutup"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="{{ __('Tutup') }}"></button>
             </div>
         @endif
 
@@ -75,8 +80,8 @@
 
 <footer class="py-3 mt-auto" style="background:#0f172a;">
     <div class="container d-flex flex-wrap justify-content-between align-items-center gap-2">
-        <span class="small" style="color:rgba(255,255,255,.65)">&copy; {{ date('Y') }} RouteMate — Panel Admin</span>
-        <span class="small" style="color:rgba(255,255,255,.65)">Area terbatas: hanya untuk administrator.</span>
+        <span class="small" style="color:rgba(255,255,255,.65)">&copy; {{ date('Y') }} RouteMate — {{ __('Panel Admin') }}</span>
+        <span class="small" style="color:rgba(255,255,255,.65)">{{ __('Area terbatas: hanya untuk administrator.') }}</span>
     </div>
 </footer>
 

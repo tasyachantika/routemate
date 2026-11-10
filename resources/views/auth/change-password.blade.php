@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Ubah Password - RouteMate')
+@section('title', __('Ubah Password') . ' - RouteMate')
 
 @section('content')
 <div class="container pb-5">
@@ -8,8 +8,8 @@
         <div class="col-md-6">
             <div class="card">
                 <div class="card-body">
-                    <h1 class="h3 mb-3">Ubah Password</h1>
-                    <p class="text-muted">Demi keamanan, password lama wajib dimasukkan dengan benar sebelum password diganti.</p>
+                    <h1 class="h3 mb-3">{{ __('Ubah Password') }}</h1>
+                    <p class="text-muted">{{ __('Demi keamanan, password lama wajib dimasukkan dengan benar sebelum password diganti.') }}</p>
 
                     @if ($errors->any())
                         <div class="alert alert-danger">
@@ -25,18 +25,18 @@
                         @csrf
                         @method('PUT')
                         <div class="mb-3">
-                            <label class="form-label">Password Lama</label>
+                            <label class="form-label">{{ __('Password Lama') }}</label>
                             <input type="password" name="current_password" class="form-control" required>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label">Password Baru</label>
+                            <label class="form-label">{{ __('Password Baru') }}</label>
                             <input type="password" name="password" class="form-control" required>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label">Konfirmasi Password Baru</label>
+                            <label class="form-label">{{ __('Konfirmasi Password Baru') }}</label>
                             <input type="password" name="password_confirmation" class="form-control" required>
                         </div>
-                        <button type="submit" class="btn btn-primary w-100">Simpan Password Baru</button>
+                        <button type="submit" class="btn btn-primary w-100">{{ __('Simpan Password Baru') }}</button>
                     </form>
                 </div>
             </div>

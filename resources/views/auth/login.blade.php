@@ -1,13 +1,13 @@
 @extends('layouts.app')
 
-@section('title', 'Masuk - RouteMate')
+@section('title', __('Masuk') . ' - RouteMate')
 
 @section('content')
 <div class="row justify-content-center">
     <div class="col-md-6">
         <div class="card">
             <div class="card-body">
-                <h1 class="h3 mb-3">Masuk ke RouteMate</h1>
+                <h1 class="h3 mb-3">{{ __('Masuk ke RouteMate') }}</h1>
 
                 @if ($errors->any())
                     <div class="alert alert-danger">
@@ -34,12 +34,12 @@
 @error('cf-turnstile-response')
     <div class="text-danger small mb-3">{{ $message }}</div>
 @enderror
-                    <button type="submit" class="btn btn-primary w-100">Masuk</button>
+                    <button type="submit" class="btn btn-primary w-100">{{ __('Masuk') }}</button>
 
                 </form>
 
-                <p class="mt-3 mb-1"><a href="{{ route('password.request') }}">Lupa password?</a></p>
-                <p class="mb-0">Belum punya akun? <a href="{{ route('register') }}">Daftar</a></p>
+                <p class="mt-3 mb-1"><a href="{{ route('password.request') }}">{{ __('Lupa password?') }}</a></p>
+                <p class="mb-0">{{ __('Belum punya akun?') }} <a href="{{ route('register') }}">{{ __('Daftar') }}</a></p>
             </div>
         </div>
     </div>

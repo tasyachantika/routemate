@@ -9,23 +9,23 @@
 @endif
 
 <div class="mb-3">
-    <label class="form-label">Nama Destinasi</label>
+    <label class="form-label">{{ __('Nama Destinasi') }}</label>
     <input type="text" name="name" class="form-control" value="{{ old('name', $destination->name) }}" required>
 </div>
 
 <div class="row">
     <div class="col-md-4 mb-3">
-        <label class="form-label">Negara</label>
+        <label class="form-label">{{ __('Negara') }}</label>
         <input type="text" name="country" class="form-control" value="{{ old('country', $destination->country) }}" required>
     </div>
     <div class="col-md-4 mb-3">
-        <label class="form-label">Kota / Wilayah</label>
+        <label class="form-label">{{ __('Kota / Wilayah') }}</label>
         <input type="text" name="city" class="form-control" value="{{ old('city', $destination->city) }}" required>
     </div>
     <div class="col-md-4 mb-3">
-        <label class="form-label">Kategori</label>
+        <label class="form-label">{{ __('Kategori') }}</label>
         <select name="category_id" class="form-select">
-            <option value="">-- Pilih Kategori --</option>
+            <option value="">{{ __('-- Pilih Kategori --') }}</option>
             @foreach ($categories as $category)
                 <option value="{{ $category->id }}" @selected((string) old('category_id', $destination->category_id) === (string) $category->id)>{{ $category->name }}</option>
             @endforeach
@@ -34,12 +34,12 @@
 </div>
 
 <div class="mb-3">
-    <label class="form-label">Deskripsi</label>
+    <label class="form-label">{{ __('Deskripsi') }}</label>
     <textarea name="description" class="form-control" rows="3">{{ old('description', $destination->description) }}</textarea>
 </div>
 
 <div class="mb-3">
-    <label class="form-label">Alamat</label>
+    <label class="form-label">{{ __('Alamat') }}</label>
     <input type="text" name="address" class="form-control" value="{{ old('address', $destination->address) }}">
 </div>
 
@@ -53,23 +53,23 @@
         <input type="text" name="longitude" id="longitude" class="form-control" value="{{ old('longitude', $destination->longitude) }}" required>
     </div>
     <div class="col-md-4 mb-3">
-        <label class="form-label">Perkiraan Biaya Masuk</label>
+        <label class="form-label">{{ __('Perkiraan Biaya Masuk') }}</label>
         <input type="number" name="entrance_fee" class="form-control" step="0.01" min="0" value="{{ old('entrance_fee', $destination->entrance_fee) }}">
-        <div class="form-text">Sesuai mata uang negara destinasi. Kosongkan jika gratis / tidak diketahui.</div>
+        <div class="form-text">{{ __('Sesuai mata uang negara destinasi. Kosongkan jika gratis / tidak diketahui.') }}</div>
     </div>
 </div>
 
 <div class="mb-3">
-    <label class="form-label">Periksa Lokasi di Peta — klik peta untuk mengisi Latitude &amp; Longitude</label>
+    <label class="form-label">{{ __('Periksa Lokasi di Peta — klik peta untuk mengisi Latitude & Longitude') }}</label>
     <div id="map" style="height: 320px;"></div>
 </div>
 
 <div class="mb-3">
-    <label class="form-label">Foto Destinasi</label>
+    <label class="form-label">{{ __('Foto Destinasi') }}</label>
     @if ($destination->photo)
         <div class="mb-2">
             <img src="{{ asset('storage/' . $destination->photo) }}" alt="{{ $destination->name }}" style="max-width: 240px;">
-            <div class="form-text">Foto saat ini. Pilih file baru hanya jika ingin menggantinya.</div>
+            <div class="form-text">{{ __('Foto saat ini. Pilih file baru hanya jika ingin menggantinya.') }}</div>
         </div>
     @endif
     <input type="file" name="photo" class="form-control" accept="image/*">

@@ -1,36 +1,36 @@
 @extends('layouts.app')
 
-@section('title', 'Peta Destinasi - RouteMate')
+@section('title', __('Peta Destinasi') . ' - RouteMate')
 
 @section('content')
-    <h1 class="mb-3">Peta Destinasi</h1>
+    <h1 class="mb-3">{{ __('Peta Destinasi') }}</h1>
 
     <form method="GET" action="{{ route('map.index') }}" class="card card-body mb-3">
         <div class="row g-2">
             <div class="col-md-6">
-                <input type="text" name="q" class="form-control" maxlength="100" placeholder="Cari nama, kota, atau negara..." value="{{ $filters['q'] ?? '' }}">
+                <input type="text" name="q" class="form-control" maxlength="100" placeholder="{{ __('Cari nama, kota, atau negara...') }}" value="{{ $filters['q'] ?? '' }}">
             </div>
             <div class="col-md-4">
                 <select name="country" class="form-select">
-                    <option value="">Semua Negara</option>
+                    <option value="">{{ __('Semua Negara') }}</option>
                     @foreach ($countries as $country)
                         <option value="{{ $country }}" @selected(($filters['country'] ?? '') === $country)>{{ $country }}</option>
                     @endforeach
                 </select>
             </div>
             <div class="col-md-2 d-flex gap-2">
-                <button type="submit" class="btn btn-primary flex-grow-1">Cari</button>
+                <button type="submit" class="btn btn-primary flex-grow-1">{{ __('Cari') }}</button>
                 <a href="{{ route('map.index') }}" class="btn btn-outline-secondary">Reset</a>
             </div>
         </div>
     </form>
 
-    <p class="text-muted">Menampilkan {{ $destinations->count() }} destinasi pada peta. Klik penanda (marker) untuk melihat ringkasannya.</p>
+    <p class="text-muted">{{ __('Menampilkan') }} {{ $destinations->count() }} {{ __('destinasi pada peta. Klik penanda (marker) untuk melihat ringkasannya.') }}</p>
 
     <div id="map" style="height: 560px;" class="rounded border"></div>
 
     @if ($destinations->isEmpty())
-        <div class="alert alert-info mt-3">Tidak ada destinasi yang cocok dengan pencarianmu, jadi tidak ada marker yang ditampilkan.</div>
+        <div class="alert alert-info mt-3">{{ __('Tidak ada destinasi yang cocok dengan pencarianmu, jadi tidak ada marker yang ditampilkan.') }}</div>
     @endif
 @endsection
 
