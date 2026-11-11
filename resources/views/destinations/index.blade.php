@@ -14,7 +14,7 @@
                 <select name="country" class="form-select">
                     <option value="">{{ __('Semua Negara') }}</option>
                     @foreach ($countries as $country)
-                        <option value="{{ $country }}" @selected(($filters['country'] ?? '') === $country)>{{ $country }}</option>
+                        <option value="{{ $country }}" @selected(($filters['country'] ?? '') === $country)>{{ __($country) }}</option>
                     @endforeach
                 </select>
             </div>
@@ -22,7 +22,7 @@
                 <select name="category_id" class="form-select">
                     <option value="">{{ __('Semua Kategori') }}</option>
                     @foreach ($categories as $category)
-                        <option value="{{ $category->id }}" @selected((string) ($filters['category_id'] ?? '') === (string) $category->id)>{{ $category->name }}</option>
+                        <option value="{{ $category->id }}" @selected((string) ($filters['category_id'] ?? '') === (string) $category->id)>{{ __($category->name) }}</option>
                     @endforeach
                 </select>
             </div>
@@ -40,20 +40,20 @@
             <div class="col-md-4 mb-4">
                 <div class="card h-100">
                     @if ($destination->photo)
-                        <img src="{{ asset('storage/' . $destination->photo) }}" class="card-img-top" style="height: 180px; object-fit: cover;" alt="{{ $destination->name }}">
+                        <img src="{{ asset('storage/' . $destination->photo) }}" class="card-img-top" style="height: 180px; object-fit: cover;" alt="{{ __($destination->name) }}">
                     @else
                         <div class="bg-secondary text-white d-flex align-items-center justify-content-center" style="height: 180px;">
                             <span>{{ __('Foto belum tersedia') }}</span>
                         </div>
                     @endif
                     <div class="card-body">
-                        <span class="badge bg-primary">{{ $destination->category->name ?? __('Tanpa Kategori') }}</span>
-                        <h5 class="card-title mt-2">{{ $destination->name }}</h5>
-                        <p class="text-muted mb-1">{{ $destination->city }}, {{ $destination->country }}</p>
+                        <span class="badge bg-primary">{{ __($destination->category->name ?? 'Tanpa Kategori') }}</span>
+                        <h5 class="card-title mt-2">{{ __($destination->name) }}</h5>
+                        <p class="text-muted mb-1">{{ $destination->city }}, {{ __($destination->country) }}</p>
                         @if ($destination->entrance_fee !== null)
                             <p class="mb-1 small"><span class="text-muted">{{ __('Tiket masuk:') }}</span> <strong>{{ \App\Support\Money::entranceFee((float) $destination->entrance_fee, $destination->country) }}</strong>@if ((float) $destination->entrance_fee > 0) <span class="text-muted">{{ __('(perkiraan)') }}</span>@endif</p>
                         @endif
-                        <p class="card-text">{{ \Illuminate\Support\Str::limit($destination->description, 100) }}</p>
+                        <p class="card-text">{{ \Illuminate\Support\Str::limit(__($destination->description), 100) }}</p>
                     </div>
                     <div class="card-footer bg-white border-0 pb-3">
                         <a href="{{ route('destinations.show', $destination) }}" class="btn btn-outline-primary w-100">{{ __('Lihat Detail') }}</a>

@@ -14,7 +14,7 @@
                 <select name="country" class="form-select">
                     <option value="">{{ __('Semua Negara') }}</option>
                     @foreach ($countries as $country)
-                        <option value="{{ $country }}" @selected(($filters['country'] ?? '') === $country)>{{ $country }}</option>
+                        <option value="{{ $country }}" @selected(($filters['country'] ?? '') === $country)>{{ __($country) }}</option>
                     @endforeach
                 </select>
             </div>

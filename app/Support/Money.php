@@ -38,6 +38,17 @@ class Money
         'CAD' => ['C$', 2, '.', ','],
         'EGP' => ['E£', 2, '.', ','],
         'INR' => ['₹', 0, '.', ','],
+        'MMK' => ['Ks', 0, '.', ','],
+        'LAK' => ['₭', 0, '.', ','],
+        'TRY' => ['₺', 0, '.', ','],
+        'QAR' => ['QAR ', 2, '.', ','],
+        'SAR' => ['SAR ', 2, '.', ','],
+        'MAD' => ['MAD ', 0, '.', ','],
+        'PEN' => ['S/', 2, '.', ','],
+        'BRL' => ['R$', 2, '.', ','],
+        'CHF' => ['CHF ', 2, '.', ','],
+        'NZD' => ['NZ$', 2, '.', ','],
+        'ZAR' => ['R', 2, '.', ','],
     ];
 
     /**
@@ -68,6 +79,17 @@ class Money
         'Mesir' => 'EGP',
         'India' => 'INR',
         'Kamboja' => 'USD',
+        'Myanmar' => 'MMK',
+        'Laos' => 'LAK',
+        'Turki' => 'TRY',
+        'Qatar' => 'QAR',
+        'Arab Saudi' => 'SAR',
+        'Maroko' => 'MAD',
+        'Peru' => 'PEN',
+        'Brasil' => 'BRL',
+        'Swiss' => 'CHF',
+        'Selandia Baru' => 'NZD',
+        'Afrika Selatan' => 'ZAR',
     ];
 
     public static function format(float|int|null $amount, string $currency): string
@@ -127,6 +149,17 @@ class Money
         'CAD' => 1.39,
         'EGP' => 48,
         'INR' => 88,
+        'MMK' => 2100,
+        'LAK' => 21700,
+        'TRY' => 42,
+        'QAR' => 3.64,
+        'SAR' => 3.75,
+        'MAD' => 10,
+        'PEN' => 3.8,
+        'BRL' => 5.4,
+        'CHF' => 0.79,
+        'NZD' => 1.67,
+        'ZAR' => 17.5,
     ];
 
     /**
@@ -157,7 +190,7 @@ class Money
             // Bulatkan wajar untuk mata uang bernominal besar.
             $value = match ($display) {
                 'IDR' => round($value / 500) * 500,
-                'KRW', 'VND' => round($value / 100) * 100,
+                'KRW', 'VND', 'MMK', 'LAK' => round($value / 100) * 100,
                 'JPY' => round($value / 10) * 10,
                 default => $value,
             };

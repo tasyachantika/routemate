@@ -83,17 +83,17 @@
             <div class="col-md-6 col-lg-4">
                 <div class="card destination-card h-100">
                     @if ($destination->photo)
-                        <img src="{{ asset('storage/' . $destination->photo) }}" class="destination-img" alt="{{ __('Foto') }} {{ $destination->name }}">
+                        <img src="{{ asset('storage/' . $destination->photo) }}" class="destination-img" alt="{{ __('Foto') }} {{ __($destination->name) }}">
                     @else
                         <div class="destination-placeholder"><span><i class="bi bi-image"></i> {{ __('Foto belum tersedia') }}</span></div>
                     @endif
                     <div class="card-body d-flex flex-column">
                         <div>
-                            <span class="badge badge-category">{{ $destination->category->name ?? __('Tanpa Kategori') }}</span>
+                            <span class="badge badge-category">{{ __($destination->category->name ?? 'Tanpa Kategori') }}</span>
                         </div>
-                        <h3 class="h5 fw-bold mt-2 mb-1">{{ $destination->name }}</h3>
-                        <p class="text-muted small mb-2"><i class="bi bi-geo-alt-fill text-danger"></i> {{ $destination->city }}, {{ $destination->country }}</p>
-                        <p class="text-muted small flex-grow-1">{{ \Illuminate\Support\Str::limit($destination->description, 110) }}</p>
+                        <h3 class="h5 fw-bold mt-2 mb-1">{{ __($destination->name) }}</h3>
+                        <p class="text-muted small mb-2"><i class="bi bi-geo-alt-fill text-danger"></i> {{ $destination->city }}, {{ __($destination->country) }}</p>
+                        <p class="text-muted small flex-grow-1">{{ \Illuminate\Support\Str::limit(__($destination->description), 110) }}</p>
                         @auth
                             <a href="{{ route('destinations.show', $destination) }}" class="btn btn-outline-primary w-100 fw-semibold">{{ __('Lihat Detail') }}</a>
                         @else

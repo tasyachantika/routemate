@@ -40,7 +40,7 @@
                     <select name="destination_id" class="form-select" required>
                         <option value="">{{ __('-- Pilih Destinasi --') }}</option>
                         @foreach ($destinations as $destination)
-                            <option value="{{ $destination->id }}" @selected((string) old('destination_id') === (string) $destination->id)>{{ $destination->name }} ({{ $destination->city }}, {{ $destination->country }})</option>
+                            <option value="{{ $destination->id }}" @selected((string) old('destination_id') === (string) $destination->id)>{{ __($destination->name) }} ({{ $destination->city }}, {{ __($destination->country) }})</option>
                         @endforeach
                     </select>
                 </div>
@@ -66,7 +66,7 @@
             <div class="card-body">
                 <div class="d-flex justify-content-between align-items-start">
                     <div>
-                        <h5 class="mb-1"><span class="badge bg-primary me-2">{{ $detail->sort_order }}</span><a href="{{ route('destinations.show', $detail->destination) }}">{{ $detail->destination->name }}</a></h5>
+                        <h5 class="mb-1"><span class="badge bg-primary me-2">{{ $detail->sort_order }}</span><a href="{{ route('destinations.show', $detail->destination) }}">{{ __($detail->destination->name) }}</a></h5>
                         <p class="mb-1">{{ __('Kunjungan:') }} {{ $detail->visit_date ? \Carbon\Carbon::parse($detail->visit_date)->translatedFormat('d F Y') : __('tanggal belum diatur') }} {{ $detail->visit_time ? substr((string) $detail->visit_time, 0, 5) : '' }} <span class="text-muted">({{ __('waktu setempat') }}, {{ $trip->timezone }})</span></p>
                         @if ($detail->notes)
                             <p class="mb-0">{{ __('Catatan:') }} {{ $detail->notes }}</p>

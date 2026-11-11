@@ -38,10 +38,10 @@ class MapController extends Controller
 
         $mapDestinations = $destinations->map(function (Destination $destination) {
             return [
-                'name' => $destination->name,
+                'name' => __($destination->name),
                 'city' => $destination->city,
-                'country' => $destination->country,
-                'category' => $destination->category->name ?? __('Tanpa Kategori'),
+                'country' => __($destination->country),
+                'category' => __($destination->category->name ?? 'Tanpa Kategori'),
                 'latitude' => (float) $destination->latitude,
                 'longitude' => (float) $destination->longitude,
                 'detail_url' => route('destinations.show', $destination),
