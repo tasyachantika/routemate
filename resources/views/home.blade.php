@@ -4,7 +4,7 @@
 
 @section('content')
 {{-- ===== HERO ===== --}}
-<section class="hero">
+<section class="hero" style="background-image: linear-gradient(105deg, rgba(9,80,74,.95) 20%, rgba(3,105,161,.82) 58%, rgba(29,78,216,.55)), url('{{ asset('images/hero.jpg') }}'); background-size: cover; background-position: center;">
     <div class="container py-5">
         <div class="row align-items-center g-4">
             <div class="col-lg-7">

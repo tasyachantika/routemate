@@ -119,20 +119,43 @@
     @yield('content')
 </main>
 
-<footer class="mt-5 py-4" style="background:#0f172a;">
+<footer class="mt-5 pt-5 pb-4" style="background:#0f172a;">
     <div class="container">
-        <div class="row align-items-center gy-3">
-            <div class="col-md-6 d-flex align-items-center gap-2">
-                <img src="{{ asset('images/logo-routemate.png') }}" alt="Logo RouteMate" style="height:30px;width:auto;">
-                <div>
+        <div class="row gy-4">
+            <div class="col-md-5">
+                <div class="d-flex align-items-center gap-2">
+                    <img src="{{ asset('images/logo-routemate.png') }}" alt="Logo RouteMate" style="height:30px;width:auto;">
                     <div class="fw-bold text-white">RouteMate</div>
-                    <div class="small" style="color:rgba(255,255,255,.6)">{{ __('Rencanakan perjalanan wisata dalam dan luar negeri dengan aman.') }}</div>
                 </div>
+                <p class="small mt-3 mb-0" style="color:rgba(255,255,255,.6)">{{ __('Rencanakan perjalanan wisata dalam dan luar negeri dengan aman.') }}</p>
+                <p class="small mt-2 mb-0" style="color:rgba(255,255,255,.6)">{{ __('Dibangun dengan Laravel, MySQL, Bootstrap, dan Leaflet.') }}</p>
             </div>
-            <div class="col-md-6 text-md-end small" style="color:rgba(255,255,255,.6)">
-                <div>{{ __('Peta © kontributor OpenStreetMap') }} &middot; {{ __('Foto © Wikimedia Commons') }}</div>
-                <div>&copy; {{ date('Y') }} RouteMate — {{ __('Proyek Cyber Security') }}</div>
+            <div class="col-md-3">
+                <div class="fw-bold text-white mb-3">{{ __('Jelajahi') }}</div>
+                <ul class="list-unstyled small mb-0">
+                    <li class="mb-2"><a href="{{ url('/') }}">{{ __('Beranda') }}</a></li>
+                    <li class="mb-2"><a href="{{ route('destinations.index') }}">{{ __('Destinasi') }}</a></li>
+                    <li class="mb-2"><a href="{{ route('map.index') }}">{{ __('Peta Interaktif') }}</a></li>
+                    @auth
+                        <li><a href="{{ route('trips.index') }}">{{ __('Trip Saya') }}</a></li>
+                    @else
+                        <li class="mb-2"><a href="{{ route('login') }}">{{ __('Masuk') }}</a></li>
+                        <li><a href="{{ route('register') }}">{{ __('Daftar') }}</a></li>
+                    @endauth
+                </ul>
             </div>
+            <div class="col-md-4">
+                <div class="fw-bold text-white mb-3">{{ __('Proyek') }}</div>
+                <ul class="list-unstyled small mb-0">
+                    <li class="mb-2"><a href="https://github.com/tasyachantika/routemate" target="_blank" rel="noopener"><i class="bi bi-github"></i> {{ __('Repositori GitHub') }}</a></li>
+                    <li style="color:rgba(255,255,255,.6)">{{ __('Proyek Cyber Security') }}</li>
+                </ul>
+            </div>
+        </div>
+        <hr style="border-color:rgba(255,255,255,.15);">
+        <div class="d-flex flex-wrap justify-content-between gap-2 small" style="color:rgba(255,255,255,.6)">
+            <div>{{ __('Peta © kontributor OpenStreetMap') }} &middot; {{ __('Foto © Wikimedia Commons') }}</div>
+            <div>&copy; {{ date('Y') }} RouteMate — {{ __('Proyek Cyber Security') }}</div>
         </div>
     </div>
 </footer>
