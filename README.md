@@ -6,6 +6,11 @@ secara manual (urutan, tanggal, dan jam kunjungan), serta mencatat perkiraan ang
 mata uang yang dipilih manual. Proyek ini dibuat untuk mata kuliah Cyber Security dengan
 penekanan pada penerapan keamanan di dalam kode aplikasi.
 
+## Aplikasi Online
+
+- URL aplikasi: [DIISI SETELAH DEPLOYMENT]
+- Halaman admin: /admin/login pada domain yang sama
+
 ## Teknologi
 
 - Laravel 12 (PHP 8.2), MySQL, Blade, Bootstrap 5
@@ -15,11 +20,14 @@ penekanan pada penerapan keamanan di dalam kode aplikasi.
 ## Fitur
 
 - Registrasi dan login pengguna; login admin terpisah di /admin/login (tanpa registrasi)
-- Daftar, pencarian, dan filter destinasi; halaman detail destinasi
-- Peta interaktif berisi penanda semua destinasi
+- Katalog 76 destinasi dari 32 negara dengan foto dan biaya masuk; pencarian dan filter negara
+- Halaman detail destinasi dan peta interaktif berisi penanda semua destinasi
 - Itinerary: buat trip, tambah destinasi, urutan manual naik/turun, jadwal kunjungan, zona waktu
 - Anggaran per trip dengan kategori biaya dan total per mata uang (tanpa konversi kurs otomatis)
 - Panel admin: kelola kategori dan destinasi (termasuk unggah foto tervalidasi)
+- Laporan admin: destinasi populer, grafik per negara/kategori, total anggaran, ekspor CSV
+- Antarmuka 6 bahasa (Indonesia, Inggris, Jepang, Mandarin, Korea, Melayu); biaya masuk
+  ditampilkan mengikuti mata uang bahasa aktif dengan keterangan perkiraan
 
 ## Keamanan yang Diterapkan
 
@@ -31,6 +39,9 @@ penekanan pada penerapan keamanan di dalam kode aplikasi.
 - Pencegahan IDOR: pengguna hanya dapat mengakses data miliknya; pelanggaran dijawab 404
 - Proteksi CSRF pada semua formulir; rate limiting pada login (throttle)
 - CAPTCHA Cloudflare Turnstile dengan verifikasi token di sisi server (fail closed)
+- Security headers pada setiap respons (middleware SecurityHeaders: X-Content-Type-Options,
+  X-Frame-Options, Referrer-Policy, Permissions-Policy, HSTS saat HTTPS)
+- Log aktivitas admin untuk audit pengelolaan data
 - Validasi server pada semua input, termasuk koordinat dan unggah foto (gambar, maks 2 MB)
 - Secret disimpan di .env yang tidak diunggah ke GitHub; .env.example disediakan sebagai templat
 
@@ -53,3 +64,19 @@ login, XSS tersimpan, pemeriksaan hashing password, CSRF tanpa token (HTTP 419),
 login (HTTP 429), sesi setelah logout, RBAC (HTTP 403), IDOR antar-pengguna (HTTP 404),
 verifikasi CAPTCHA sisi server, validasi unggah berkas, dan `composer audit`.
 Hasil rinci beserta bukti tangkapan layar terdapat pada laporan proyek.
+
+## Penggunaan AI
+
+Proyek ini dikerjakan dengan bantuan asisten AI **Muse (Meta)** sebagai pembimbing bertahap
+dan pemeriksa, meliputi: perancangan 18 tahap pengerjaan, penjelasan konsep (basis data,
+autentikasi, CAPTCHA, peta), penulisan dan perbaikan kode, penyusunan data destinasi dan
+terjemahan antarmuka, pencarian foto berlisensi bebas dari Wikimedia Commons, serta penyusunan
+draf laporan. Contoh prompt utama antara lain: "Bimbing saya mengerjakan proyek RouteMate satu
+tahap demi satu tahap dalam Bahasa Indonesia sederhana", "Tambahkan destinasi dan fotonya di Asia
+Tenggara", dan "Masih ada yang kurang dari semua yang saya berikan?".
+
+Seluruh hasil bantuan AI diverifikasi langsung oleh penulis: setiap tahap dijalankan dan diuji
+pada komputer penulis, hasil dibandingkan dengan tangkapan layar dan pesan kesalahan yang
+sebenarnya, perubahan kode diperiksa ulang melalui riwayat commit GitHub, dan hasil pengujian
+dicatat apa adanya (termasuk temuan audit yang kemudian diperbaiki). Tidak ada secret atau data
+pribadi yang dimasukkan ke dalam prompt AI.
