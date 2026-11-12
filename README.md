@@ -8,7 +8,7 @@ penekanan pada penerapan keamanan di dalam kode aplikasi.
 
 ## Aplikasi Online
 
-- URL aplikasi: [DIISI SETELAH DEPLOYMENT]
+- URL aplikasi: https://routemate.my.id
 - Halaman admin: /admin/login pada domain yang sama
 
 ## Teknologi
